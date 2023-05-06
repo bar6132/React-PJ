@@ -1,0 +1,38 @@
+* {
+  box-sizing: content-box; 
+}
+
+
+.MyNav{
+  color: black;
+    display: flex;
+    justify-content: space-between;    
+    align-items: stretch;  
+    
+    gap: 2rem; 
+    direction: rtl;
+    font-size: 25px;
+    
+}
+a {
+    text-decoration: none;
+  }
+.Log {
+  margin-right: auto; 
+}
+.Log :Button{
+  text-decoration: none;
+}
+
+
+.MyNav a{
+    text-decoration: none; 
+    color: white;
+}
+
+.MyNav a:hover{
+    text-decoration: none; 
+    color: red;
+}
+
+

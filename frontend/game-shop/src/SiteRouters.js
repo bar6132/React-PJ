@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import SignUp from './components/SignUp';
 import Logout from './components/Logout';
 import Login from './components/Login';
+import About from './pages/About';
 
 
 
@@ -16,6 +17,7 @@ function SiteRouters() {
           <Route path="/Signup" element={<SignUp/>}/>
           <Route path='/Logout' element={<Logout/>}/>
           <Route path='/Login' element={<Login/>}/>
+          <Route path='/About' element={<About/>}/>
         </Routes>
       </>);
   }

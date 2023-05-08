@@ -17,8 +17,25 @@ from rest_framework.response import Response
 
 
 
+# def obtain_token_view(request):
+#     return obtain_auth_token(request)
+
+@api_view(['POST'])
 def obtain_token_view(request):
-    return obtain_auth_token(request)
+    response = obtain_auth_token(request)
+    # Get user object for authenticated user using token from response
+    user = Token.objects.get(key=response.data['token']).user
+    # Add user data to response and return
+    return Response({
+        'user': {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name
+        },
+        'token': response.data['token']
+    })
 
 # @api_view(['POST'])
 # def obtain_token_view(request):
@@ -186,3 +203,9 @@ def oldgame(request, pk=None):
         else:
             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST', 'GET'])
+def getPs5(request):    
+    if request.method == "GET":
+        game = Game.objects.filter(consol='PS5')
+        serializer = GameSerializer(game, many=True)
+        return Response(serializer)

@@ -25,7 +25,7 @@ function GameList() {
           <ListGroup.Item>{uploader.person}</ListGroup.Item>
         ) : null}
         <ListGroup.Item>קונסולה  : {console}  </ListGroup.Item>
-        <ListGroup.Item>מחיר : {price}</ListGroup.Item>
+        <ListGroup.Item>מחיר : ₪{price}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
         <Card.Link href="#">Card Link</Card.Link>

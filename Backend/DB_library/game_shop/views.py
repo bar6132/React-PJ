@@ -12,10 +12,28 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.response import Response
+
 
 
 def obtain_token_view(request):
     return obtain_auth_token(request)
+
+# @api_view(['POST'])
+# def obtain_token_view(request):
+#     response = obtain_auth_token(request)
+#     user = Token.objects.get(key=response.data['token']).user
+#     return Response({
+#         'user': {
+#             'id': user.id,
+#             'username': user.username,
+#             'email': user.email,
+#             'first_name': user.first_name,
+#             'last_name': user.last_name
+#         },
+#         'token': response.data['token']
+#     })
 
 @api_view(['GET'])
 def get_pp(request):

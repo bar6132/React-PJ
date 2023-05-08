@@ -26,6 +26,29 @@ function Login() {
     }
   };
 
+  // const handleLogin = async () => {
+  //   const response = await fetch(`${url}obtain-token`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ username, password }),
+  //   });
+  
+  //   if (response.ok) {
+  //     const data = await response.json();
+  //     const { user, token } = data;
+  //     console.log(data)
+  //     console.log(`Token: ${token}, Username: ${username} ,user: ${user}`);
+  //     localStorage.setItem('token', token);
+  //     localStorage.setItem('user', JSON.stringify(user));
+  //     alert("Login successful!");
+  //     window.location.href = "/";
+  //   } else {
+  //     console.error('Failed to obtain token');
+  //   }
+  // };
+
+
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };

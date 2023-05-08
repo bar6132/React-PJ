@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Stack, Typography, Slider, TextField } from "@mui/material";
-import sidebarstyle from './sidebarstyle.css'
+import './sidebarstyle.css'
 import { Button } from 'react-bootstrap';
 function SideBar() {
   const [minNum, setMinNum] = useState(0);
@@ -62,7 +62,24 @@ function SideBar() {
         <h4> : מחיר</h4>
       </Stack>
       <br/>
-      <Button style={{position:'absolute'}}>Ps 5</Button>
+      <div className="dropdown">
+        <span  style={{position:'absolute', textAlign: "center"}}> Playstasion</span>
+        <div className="dropdown-content">
+          <Button style={{position:'absolute'}} onClick={()=>{}} > ps5 </Button>
+          <br/>
+          <br/>
+          <Button style={{position:'absolute'}}> ps4 </Button>
+          <br/>
+          <br/>
+          <Button style={{position:'absolute'}}> ps3 </Button>
+          <br/>
+          <br/>
+          <Button style={{position:'absolute'}}> ps2 </Button>
+          <br/>
+          <br/>
+          <Button style={{position:'absolute'}}> ps1 </Button>
+        </div>
+      </div>
       </div>
       
     </div>

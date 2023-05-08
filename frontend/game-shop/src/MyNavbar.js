@@ -17,7 +17,7 @@ function MyNavbar() {
 
       <NavLink to="/GameList">משחקים</NavLink>
 
-      <NavLink href="#features">אודות</NavLink>
+      <NavLink to="/About">אודות</NavLink>
 
           {token ? (
         <NavDropdown

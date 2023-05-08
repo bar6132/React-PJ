@@ -1,0 +1,23 @@
+.title {
+    text-align: center;
+    color: red;
+}
+
+.p {
+    text-align: right;
+    color: aqua;
+}
+
+.right {
+    text-align: center;
+    color: aqua;
+
+}
+
+
+.left {
+    color: aqua;
+    display: "flex";
+    justify-content: flex-end;
+    align-items:flex-end;
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import SiteRouters from "./SiteRouters";
 import MyNavbar from "./MyNavbar";
-import style from "./style.css"
+import "./style.css"
 
 
 export const AppContext = createContext(null);

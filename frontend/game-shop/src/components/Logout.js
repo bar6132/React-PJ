@@ -4,7 +4,7 @@ import React from 'react';
 
 function Logout(props) {
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('UserProfile');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     window.location.href = '/';

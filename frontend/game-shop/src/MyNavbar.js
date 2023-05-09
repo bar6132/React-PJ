@@ -7,10 +7,7 @@ import Logout from './components/Logout';
 function MyNavbar() {
   const token = localStorage.getItem('token');
   const username = localStorage.getItem('username');
-  console.log(token)
   
-
- 
   return (
     <Navbar bg="dark" variant="dark" className='MyNav'>
       <NavLink to='/'>ארקייד </NavLink>
@@ -25,9 +22,11 @@ function MyNavbar() {
           menuVariant="dark"
           style={{direction:'ltr', marginRight: 'auto'}}
         >
-          <NavDropdown.Item href="#action/3.1"  style={{direction:'rtl', textAlign:'center'}}>פרופיל</NavDropdown.Item>
+          <NavDropdown.Item   style={{direction:'rtl', textAlign:'center'}}>
+          פרופיל
+          </NavDropdown.Item>
           <NavDropdown.Item href="#action/3.2" style={{direction:'rtl', textAlign:'center'}} >
-            הוסף משחק
+            <NavLink to="/AddGameMenu"> הוסף משחק</NavLink>
           </NavDropdown.Item>
           <NavDropdown.Item style={{direction:'rtl', textAlign:'center'}} ><Logout/></NavDropdown.Item>
         </NavDropdown>   

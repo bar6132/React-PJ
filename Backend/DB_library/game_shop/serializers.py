@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import OldSchool, Game, Person , User
+from .models import OldSchool, Game, UserProfile, User
 
 
 class OldSchoolSerializer(serializers.ModelSerializer):
@@ -8,26 +8,21 @@ class OldSchoolSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
+
+
 class GameSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Game
         fields = '__all__'
 
 
-class PersonSerializer(serializers.ModelSerializer):
-
+class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Person
+        model = UserProfile
         fields = '__all__'
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'password']
-
-        extra_kwargs = {
-            'password': {'write_only': True},
-            'email': {'required': True}
-                }
 

@@ -2,14 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Person(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
-    city = models.CharField(null=False, max_length=50)
+class UserProfile(models.Model):
+    location = models.CharField(null=False, max_length=50)
+    age = models.PositiveIntegerField()
     phone = models.PositiveIntegerField(null=False)
+    email = models.EmailField(null=False)
     user = models.OneToOneField(null=True, to=User, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "Person"
+        db_table = "User Profile"
 
     def __str__(self):
         return f"{self.user}\n"
@@ -25,7 +26,7 @@ class Game(models.Model):
     game_name = models.CharField(null=False, max_length=50)
     price = models.PositiveIntegerField(null=False)
     game_img = models.ImageField(null=True, blank=True, upload_to="images/")
-    uploader = models.ForeignKey(Person, on_delete=models.CASCADE, null=True, blank=True)
+    uploader = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         db_table = "Game"
@@ -45,7 +46,7 @@ class OldSchool(models.Model):
     game_name = models.CharField(null=False, max_length=50)
     price = models.PositiveIntegerField(null=False)
     game_img = models.ImageField(null=True, blank=True, upload_to="images/")
-    uploader = models.ForeignKey(Person, on_delete=models.CASCADE, null=True, blank=True)
+    uploader = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         db_table = "Old School"

@@ -1,66 +1,97 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from "react";
 import { AppContext } from '../App';
 
-function SignUp() {
-    const {url} = useContext(AppContext)
+function Signup() {
+  const {url} = useContext(AppContext);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [location, setLocation] = useState("");
+  const [age, setAge] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const email = document.getElementById('email').value;
-    
-    const data = {'username': username, 'password': password, 'email': email};
-
-    fetch(`${url}signup`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {'Content-Type': 'application/json'}
-    })
-      .then(response => {
-        if (response.status !== 200) {
-          
-          return;
-        }
-        window.location.href = '/';
-        return response.json();
-      })
-      .then(data => {
-        const userString = JSON.stringify(data.user);
-        console.log('Token:', data.token);
-        console.log('username:', data.username);
-        localStorage.setItem('user', userString);
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username)
-      })
-      .catch(error => {
-        console.error(error);
-        // Display an error message to the user
-        alert('Could not create user. Please try again.');
-        // Reset the form fields
-        document.getElementById('name').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('password').value = '';
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    try {
+      // Send form data to server
+      const response = await fetch(`${url}signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          email,
+          location,
+          age,
+          phone,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+
+      // Store token and user data in local storage
+      localStorage.setItem("username", username);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("UserProfile", JSON.stringify(data.user));
+
+      // Redirect to home page or some other destination
+      window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+    }
   };
-  
 
   return (
-    <>
-      <div>
-        <form id="signup-form" onSubmit={handleSubmit}>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username"/><br/>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password"/><br/>
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email"/><br/>
-          <button type="submit">הרשם</button>
-        </form>
-      </div>
-    </>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Username:
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        Confirm Password:
+        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        Email:
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        Location:
+        <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        Age:
+        <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        Phone:
+        <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+      </label>
+      <br />
+      <button type="submit">Sign up</button>
+    </form>
   );
 }
 
-export default SignUp;
+export default Signup;

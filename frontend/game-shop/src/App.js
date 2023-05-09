@@ -3,33 +3,27 @@ import SiteRouters from "./SiteRouters";
 import MyNavbar from "./MyNavbar";
 import "./style.css"
 
-
 export const AppContext = createContext(null);
 
 function App() {
-  const [person, setPerson] = useState(null);
   const [storeData, setStoreData] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const url = "http://127.0.0.1:8000/api/";
-  const personurl = `${url}pp`;
-  
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [gamesResponse, personResponse] = await Promise.all([
-          fetch(`${url}games`, { method: "GET" }),
-          fetch(personurl, { method: "GET" })
+        const [gamesResponse] = await Promise.all([
+          fetch(`${url}games/`, { method: "GET" }),
         ]);
 
-        const [gamesData, personData] = await Promise.all([
+        const [gamesData] = await Promise.all([
           gamesResponse.json(),
-          personResponse.json()
+          // Remove this console.log statement ↓
+          // console.log(gamesData)
         ]);
 
         setStoreData(gamesData);
-        setPerson(personData);
-        console.log(personData);
       } catch (error) {
         console.log(error);
       }
@@ -40,14 +34,10 @@ function App() {
 
   return (
     <>
-      {!storeData || !person ? (
-        <div>Loading...</div>
-      ) : (
-        <AppContext.Provider value={{ storeData, url, person  }}>
-          <MyNavbar />
-          <SiteRouters />
-        </AppContext.Provider>
-      )}
+      <AppContext.Provider value={{ storeData, url }}>
+        <MyNavbar />
+        <SiteRouters />
+      </AppContext.Provider>
     </>
   );
 }

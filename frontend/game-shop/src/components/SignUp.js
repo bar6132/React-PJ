@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AppContext } from '../App';
+import './signupstyle.css'
+import background from '../image/2537738.jpg'
 
 function Signup() {
   const {url} = useContext(AppContext);
@@ -53,44 +55,61 @@ function Signup() {
   };
 
   return (
+    <>
+    
+      <div className="background-image"
+     style={{
+        width: '100%',
+        
+        backgroundImage: `url(${background})`,
+        backgroundSize: "fit",
+        backgroundRepeat: 'no-repeat',
+        
+    }}>
+      <div className="form-container"></div>
+    <div >
+    
     <form onSubmit={handleSubmit}>
       <label>
-        Username:
+        שם משתמש :
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
       </label>
       <br />
       <label>
-        Password:
+        סיסמא:
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </label>
       <br />
       <label>
-        Confirm Password:
+        אימות סיסמא:
         <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
       </label>
       <br />
       <label>
-        Email:
+        אימייל:
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </label>
       <br />
       <label>
-        Location:
+        עיר מגורים:
         <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
       </label>
       <br />
       <label>
-        Age:
+        גיל:
         <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
       </label>
       <br />
       <label>
-        Phone:
+        טלפון:
         <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </label>
       <br />
-      <button type="submit">Sign up</button>
+      <button type="submit">הרשם</button>
     </form>
+    </div>
+    </div>
+    </>
   );
 }
 

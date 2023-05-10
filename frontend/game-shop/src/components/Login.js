@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 import { AppContext } from '../App';
+import background from '../image/2996302.jpg'
+import './logingstyle.css'
 
 function Login() {
   const {url} = useContext(AppContext)
@@ -34,10 +36,10 @@ function Login() {
       const userData = await userResponse.json();
       localStorage.setItem('UserProfile', JSON.stringify(userData));
   
-      alert("Login successful!");
+      alert("התחברת בהצלחה ! ");
       window.location.href = "/";
     } else {
-      alert("Login failed. Please check your credentials and try again.");
+      alert("התחברות נכשלה , אחד או יותר מאמצעי הזיהוי שגויים, נסה שנית ");
     }
   }
   const handleUsernameChange = (event) => {
@@ -49,18 +51,29 @@ function Login() {
   };
 
   return (
-    <div>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={handleUsernameChange} />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input type="password" value={password} onChange={handlePasswordChange} />
-      </label>
-      <br />
-      <button onClick={handleLogin}>התחבר</button>
+    <div style={{
+      width: '100%',
+      height: '99%',
+      backgroundImage: `url(${background})`,
+      backgroundSize: "cover",
+      backgroundRepeat: 'no-repeat',
+      
+  }}>
+    <div className="container">
+      <div className="form-container">
+        <label>
+         : שם משתמש 
+          <input type="text" value={username} onChange={handleUsernameChange} />
+        </label>
+        <br />
+        <label>
+         : סיסמא
+          <input type="password" value={password} onChange={handlePasswordChange} />
+        </label>
+        <br />
+        <button onClick={handleLogin}>התחבר</button>
+      </div>
+    </div>
     </div>
   );
 }

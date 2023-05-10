@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 94vh;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+  }
+  
+  .form-container label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .form-container input {
+    direction: rtl;
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+  }
+  
+  .form-container button {
+    width: 100%;
+    padding: 10px;
+  }
+  

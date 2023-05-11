@@ -8,6 +8,8 @@ import Login from './components/Login';
 import About from './pages/About';
 import AddGame from './components/AddGame';
 import AddGameMenu from './pages/AddGameMenu';
+import AddOldGame from './components/AddOldGame';
+import Profile from './components/Profile';
 
 
 
@@ -22,6 +24,8 @@ function SiteRouters() {
           <Route path='/About' element={<About/>}/>
           <Route path='/AddGame' element={<AddGame/>}/>
           <Route path='/AddGameMenu' element={<AddGameMenu/>}/>
+          <Route path='/AddOldGame' element={<AddOldGame/>}/>
+          <Route path='/Profile' element={<Profile/>}/>
         </Routes>
       </>);
   }

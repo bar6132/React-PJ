@@ -23,7 +23,7 @@ function MyNavbar() {
           style={{direction:'ltr', marginRight: 'auto'}}
         >
           <NavDropdown.Item   style={{direction:'rtl', textAlign:'center'}}>
-          פרופיל
+            <NavLink to='/profile'>פרופיל </NavLink>  
           </NavDropdown.Item>
           <NavDropdown.Item href="#action/3.2" style={{direction:'rtl', textAlign:'center'}} >
             <NavLink to="/AddGameMenu"> הוסף משחק</NavLink>

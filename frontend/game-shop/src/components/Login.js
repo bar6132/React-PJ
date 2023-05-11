@@ -28,7 +28,7 @@ function Login() {
       localStorage.setItem('username', username);
   
       // Make another request to get the user's information
-      const userResponse = await fetch(`${url}get-user-data`, {
+      const userResponse = await fetch(`${url}get-user-data/`, {
         headers: {
           Authorization: `Token ${token}`
         }

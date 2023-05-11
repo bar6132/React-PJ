@@ -10,23 +10,25 @@ function Profile() {
     // const [phone, setPhone] = useState('');
     // const [email, setEmail] = useState('');
     // const [user, setUser] = useState('');
-      const userID = window.localStorage.getItem('pk')
-      console.log(userID)
+    const UserProfile = window.localStorage.getItem('UserProfile');
+    const userId = JSON.parse(UserProfile).id;
+      console.log(userId)
+
+
     useEffect(() => {
-        fetch(`${url}get_profile/${6}`)
+        fetch(`${url}my_profile/${userId}`)
         .then(response=>response.json())
         .then(data=>{setProfileData(data);})
         .catch(error=>{console.log(error);});
-        console.log(profileData)
-        
-        
-
-    
-    })
+    }, [])
 
   return (
     <div>
-          <h1>this is your profile</h1>
+      <h2>User Profile</h2>
+      <p>Location: {profileData.location}</p>
+      <p>Age: {profileData.age}</p>
+      <p>Phone: {profileData.phone}</p>
+      <p>Email: {profileData.email}</p>
     </div>
   )
 }

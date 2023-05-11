@@ -43,6 +43,7 @@ function AddGame() {
       <label>
         Console:
         <select value={console} onChange={(event) => setConsole(event.target.value)}>
+          <option value=""></option>
           <option value="PS3">PS3</option>
           <option value="PS4">PS4</option>
           <option value="PS5">PS5</option>

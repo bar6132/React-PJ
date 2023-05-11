@@ -37,7 +37,7 @@ def get_user_data(request):
     }
     response_data = {
         'user': user_data,
-        'id' : user_profile.id,
+        'id': user_profile.id,
         'email': user_profile.email,
         'location': user_profile.location,
         'age': user_profile.age,
@@ -46,6 +46,11 @@ def get_user_data(request):
     return Response(response_data)
 
 
+@api_view(['GET'])
+def get_profile(request, pk):
+    profile = UserProfile.objects.get(pk=pk)
+    serializer = UserProfileSerializer(profile)
+    return Response(serializer.data)
 
 User = get_user_model()
 
@@ -226,8 +231,4 @@ def getPs5(request):
         serializer = GameSerializer(game, many=True)
         return Response(serializer)
 
-@api_view(['GET'])
-def get_profile(request, pk):
-    profile = UserProfile.objects.get(pk=pk)
-    serializer = UserProfileSerializer(profile).data
-    return Response(serializer)
+

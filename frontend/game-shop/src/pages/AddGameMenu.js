@@ -10,7 +10,7 @@ function AddGameMenu() {
       <div className="button-container">
       <NavLink className="button new-game-button" to="/AddGame">הוסף משחק חדש </NavLink>
         <span>OR</span>
-        <NavLink className="button import-game-button" to="/ImportGame">הוסף משחק ישן</NavLink>
+        <NavLink className="button import-game-button" to="/AddOldGame">הוסף משחק ישן</NavLink>
       </div>
     </div>
   );

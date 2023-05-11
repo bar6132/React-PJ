@@ -26,6 +26,7 @@ function Login() {
       const token = data.token;
       localStorage.setItem('token', token);
       localStorage.setItem('username', username);
+      
   
       // Make another request to get the user's information
       const userResponse = await fetch(`${url}get-user-data`, {

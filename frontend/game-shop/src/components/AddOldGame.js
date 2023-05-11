@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
 
-function AddGame() {
+function AddOldGame() {
   const {url} = useContext(AppContext)
   const [console, setConsole] = useState('');
   const [gameName, setGameName] = useState('');
@@ -22,7 +22,7 @@ function AddGame() {
     }
 
     // Send a POST request to the API endpoint
-    fetch(`${url}game/`, {
+    fetch(`${url}oldgame/`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -38,18 +38,21 @@ function AddGame() {
     .catch(error => console.error(error.message));
   }
 
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
         Console:
         <select value={console} onChange={(event) => setConsole(event.target.value)}>
-          <option value="PS3">PS3</option>
-          <option value="PS4">PS4</option>
-          <option value="PS5">PS5</option>
-          <option value="Xbox 360">Xbox 360</option>
-          <option value="Xbox One">Xbox One</option>
-          <option value="Xbox Series X/S">Xbox Series X/S</option>
-          <option value="Nintendo Switch">Nintendo Switch</option>
+          <option value="PS2">PS2</option>
+          <option value="PS ONE">PS ONE</option>
+          <option value="Wii">Wii</option>
+          <option value="PSP">PSP</option>
+          <option value="Game Boy">Game Boy</option>
+          <option value="Atari">Atari</option>
+          <option value="Nintendo DS">Nintendo Switch</option>
+          <option value="Xbox Original">Xbox Original</option>
+          <option value="PC">PC</option>
         </select>
       </label>
       <label>
@@ -69,4 +72,4 @@ function AddGame() {
   );
 }
 
-export default AddGame;
+export default AddOldGame;

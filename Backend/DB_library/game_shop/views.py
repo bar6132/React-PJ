@@ -16,6 +16,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.authtoken.views import ObtainAuthToken
 
+
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 def my_view(request):
@@ -36,76 +37,15 @@ def get_user_data(request):
     }
     response_data = {
         'user': user_data,
-        'email': user.email,
+        'id' : user_profile.id,
+        'email': user_profile.email,
         'location': user_profile.location,
         'age': user_profile.age,
         'phone': user_profile.phone
     }
     return Response(response_data)
 
-# @api_view(['POST'])
-# def obtain_token_view(request):
-#     # Call the built-in obtain_auth_token view to get the token
-#     response = obtain_auth_token(request)
-#     # Get the user object using the token from the response
-#     token_value = response.data['token']
-#     token = Token.objects.get(key=token_value)
-#     user = token.user
-#     # Customize the response data with additional user information
-#     user_dict = {
-#         'username': user.username,
-#         'email': user.email,
-#         'first_name': user.first_name,
-#         'last_name': user.last_name,
-#         'is_staff': user.is_staff,
-#         'date_joined': user.date_joined.strftime('%Y-%m-%d %H:%M:%S')
-#     }
-#     # Update the response data with the custom user data
-#     response.data.update({'user': user_dict})
-#     return response
 
-
-# def obtain_token_view(request):
-#     return obtain_auth_token(request)
-
-# @api_view(['POST'])
-# def obtain_token_view(request):
-#     response = obtain_auth_token(request)
-#     # Get user object for authenticated user using token from response
-#     user = Token.objects.get(key=response.data['token']).user
-#     # Add user data to response and return
-#     print(response.data)
-#     return Response({
-#         'user': {
-#             'username': user.username,
-#             'email': user.email,
-#             'first_name': user.first_name,
-#             'last_name': user.last_name
-#         },
-#         'token': response.data['token']
-#     })
-
-# @api_view(['POST'])
-# def obtain_token_view(request):
-#     response = obtain_auth_token(request)
-#     user = Token.objects.get(key=response.data['token']).user
-#     return Response({
-#         'user': {
-#             'id': user.id,
-#             'username': user.username,
-#             'email': user.email,
-#             'first_name': user.first_name,
-#             'last_name': user.last_name
-#         },
-#         'token': response.data['token']
-#     })
-
-# @api_view(['GET'])
-# def get_pp(request):
-#     P = User.objects.all()
-#     serializer = UserSerializer(P, many=True)
-#     return Response(serializer.data)
-#
 
 User = get_user_model()
 
@@ -135,15 +75,15 @@ def signup(request):
     data = {
         "message": f"New user created with ID: {user.id}",
         "token": token.key,
-        'username' : username,
+        'username': username,
         "user": {
             "id": user.id,
-            "email": user.email,
             "username": username,
             "profile": {
                 "location": location,
                 "age": age,
                 "phone": phone,
+                "email": email,
             }
         }
     }
@@ -168,12 +108,29 @@ def games(request, pk=None):
             return Response(serializer.data)
 
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-@authentication_classes([TokenAuthentication])
-def game(request, pk=None):
+
+@api_view(['GET'])
+def oldgames(request, pk=None):
     """
     Get all games or one only
     """
+    if request.method == 'GET':
+        if pk is None:
+            G = OldSchool.objects.all()
+            serializer = OldSchoolSerializer(G, many=True)
+            return Response(serializer.data)
+        else:
+            G = OldSchool.objects.get(pk=pk)
+            serializer = OldSchoolSerializer(G)
+            return Response(serializer.data)
+
+
+
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@authentication_classes([TokenAuthentication])
+def game(request, pk=None):
+
     if request.method == 'GET':
         if pk is None:
             G = Game.objects.all()
@@ -183,7 +140,6 @@ def game(request, pk=None):
             G = Game.objects.get(pk=pk)
             serializer = GameSerializer(G)
             return Response(serializer.data)
-
 
     elif request.method == 'POST':
         serializer = GameSerializer(data=request.data)
@@ -215,29 +171,11 @@ def game(request, pk=None):
         else:
             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-def oldgames(request, pk=None):
-    """
-    Get all games or one only
-    """
-    if request.method == 'GET':
-        if pk is None:
-            G = OldSchool.objects.all()
-            serializer = OldSchoolSerializer(G, many=True)
-            return Response(serializer.data)
-        else:
-            G = OldSchool.objects.get(pk=pk)
-            serializer = OldSchoolSerializer(G)
-            return Response(serializer.data)
 
-
-@api_view(['GET','POST','PUT','DELETE'])
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
 def oldgame(request, pk=None):
-    """
-    Get all games or one only
-    """
+
     if request.method == 'GET':
         if pk is None:
             G = OldSchool.objects.all()
@@ -247,13 +185,17 @@ def oldgame(request, pk=None):
             G = OldSchool.objects.get(pk=pk)
             serializer = OldSchoolSerializer(G)
             return Response(serializer.data)
+
     elif request.method == 'POST':
         serializer = OldSchoolSerializer(data=request.data)
         if serializer.is_valid():
+            # set the game's uploader to be the current user
+            serializer.validated_data['uploader_id'] = request.user.id
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     elif request.method == 'PUT':
         if pk is not None:
             G = OldSchool.objects.get(pk=pk)
@@ -274,9 +216,18 @@ def oldgame(request, pk=None):
         else:
             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+
 @api_view(['POST', 'GET'])
 def getPs5(request):    
     if request.method == "GET":
         game = Game.objects.filter(consol='PS5')
         serializer = GameSerializer(game, many=True)
         return Response(serializer)
+
+@api_view(['GET'])
+def get_profile(request, pk):
+    profile = UserProfile.objects.get(pk=pk)
+    serializer = UserProfileSerializer(profile).data
+    return Response(serializer)

@@ -11,6 +11,7 @@ urlpatterns = [
     path('signup', views.signup),
     path('obtain-token', obtain_auth_token),
     path('get-user-data', get_user_data),
+    path('my_profile/<int:pk>', views.get_profile),
     # path('pp', views.get_pp),
     path('games/', views.games),
     path('games/<int:pk>', views.games),

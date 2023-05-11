@@ -60,9 +60,9 @@ function Signup() {
       <div className="background-image"
      style={{
         width: '100%',
-        
+        height: '94.2vh',
         backgroundImage: `url(${background})`,
-        backgroundSize: "fit",
+        backgroundSize: "",
         backgroundRepeat: 'no-repeat',
         
     }}>

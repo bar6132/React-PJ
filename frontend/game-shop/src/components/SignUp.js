@@ -66,7 +66,6 @@ function Signup() {
         backgroundRepeat: 'no-repeat',
         
     }}>
-      <div className="form-container"></div>
     <div >
     
     <form onSubmit={handleSubmit}>

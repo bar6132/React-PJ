@@ -46,11 +46,25 @@ def get_user_data(request):
     return Response(response_data)
 
 
-@api_view(['GET'])
+
+@api_view(['GET', 'PUT'])
 def get_profile(request, pk):
-    profile = UserProfile.objects.get(pk=pk)
-    serializer = UserProfileSerializer(profile)
-    return Response(serializer.data)
+    try:
+        profile = UserProfile.objects.get(pk=pk)
+    except UserProfile.DoesNotExist:
+        return Response(status=404)
+
+    if request.method == 'GET':
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = UserProfileSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)
+
 
 User = get_user_model()
 
@@ -93,6 +107,7 @@ def signup(request):
         }
     }
     return Response(data, status=201)
+
 
 
 @api_view(['GET'])

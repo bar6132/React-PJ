@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Stack, Typography, Slider, TextField } from "@mui/material";
 import './sidebarstyle.css'
 import { Button } from 'react-bootstrap';
+import  back from '../image/back.jpg'
 function SideBar() {
   const [minNum, setMinNum] = useState(0);
   const [maxNum, setMaxNum] = useState(1000);
@@ -62,27 +63,27 @@ function SideBar() {
         <h4> : מחיר</h4>
       </Stack>
       <br/>
-      <div className="dropdown">
-        <span  style={{position:'absolute', textAlign: "center"}}> Playstasion</span>
-        <div className="dropdown-content">
-          <Button style={{position:'absolute'}} onClick={()=>{}} > ps5 </Button>
+      <div style={{textAlign: "right", direction: 'rtl'}}>
+        <p style={{textAlign: 'center'}}>Playstation</p>
+    
+        <div style={{backgroundImage:`url(${back})`, backgroundSize: "cover", width: '100%' }}>
+          <Button style={{ background:'none', border:'0'}} > ps5 </Button>
           <br/>
           <br/>
-          <Button style={{position:'absolute'}}> ps4 </Button>
+          <Button style={{ background:'none', border:'0'}}> ps4 </Button>
           <br/>
           <br/>
-          <Button style={{position:'absolute'}}> ps3 </Button>
+          <Button style={{ background:'none', border:'0'}}> ps3 </Button>
           <br/>
           <br/>
-          <Button style={{position:'absolute'}}> ps2 </Button>
+          <Button style={{ background:'none', border:'0'}}> ps2 </Button>
           <br/>
           <br/>
-          <Button style={{position:'absolute'}}> ps1 </Button>
+          <Button style={{ background:'none', border:'0'}}> ps1 </Button>
         </div>
       </div>
       </div>
-      
-    </div>
+      </div>
     </>
   )
 }

@@ -2,8 +2,8 @@ import React from 'react'
 
 function Home() {
   return (
-    <div>Home</div>
+    <h1>ברוך הבאה לארקייד</h1>
   )
 }
 
-export default Home
+export default Home 

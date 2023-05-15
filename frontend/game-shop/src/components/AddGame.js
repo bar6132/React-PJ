@@ -29,22 +29,28 @@ function AddGame() {
         Authorization: `Token ${token}`,
       },
     })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       return response.json();
     })
-    .catch(error => console.error(error.message));
+    .then(() => {
+      alert('המשחק התווסף בהצלחה');
+      window.location.replace('/');
+    })
+    .catch((error) => {
+      console.error('Error adding game:', error);
+    });
   }
+  return (<>
 
-  return (
     <form onSubmit={handleSubmit}>
       <label>
         Console:
         <select value={console} onChange={(event) => setConsole(event.target.value)}>
           <option value=""></option>
-          <option value="PS3">PS3</option>
+          <option  className='option' value="PS3">PS3</option>
           <option value="PS4">PS4</option>
           <option value="PS5">PS5</option>
           <option value="Xbox 360">Xbox 360</option>
@@ -67,6 +73,7 @@ function AddGame() {
       </label>
       <button type="submit">Add Game</button>
     </form>
+    </>
   );
 }
 

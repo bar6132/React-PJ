@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
+import './AddOldGame.css'
 
 function AddOldGame() {
-  const {url} = useContext(AppContext)
+  const { url } = useContext(AppContext);
   const [console, setConsole] = useState('');
   const [gameName, setGameName] = useState('');
   const [price, setPrice] = useState('');
   const [gameImg, setGameImg] = useState(null);
-  const token = window.localStorage.getItem('token')
+  const token = window.localStorage.getItem('token');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,14 +30,20 @@ function AddOldGame() {
         Authorization: `Token ${token}`,
       },
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .catch(error => console.error(error.message));
-  }
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(() => {
+        alert('המשחק התווסף בהצלחה');
+        window.location.replace('/');
+      })
+      .catch((error) => {
+        console.error('Error adding game:', error);
+      });
+  };
 
   return (
     <form onSubmit={handleSubmit}>

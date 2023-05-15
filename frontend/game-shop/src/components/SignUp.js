@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import { AppContext } from '../App';
-import './signupstyle.css'
 import background from '../image/2537738.jpg'
+import './signupstyle.css'
+
 
 function Signup() {
   const {url} = useContext(AppContext);

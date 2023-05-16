@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 15px;
+  width: 87%;
 }
 
 .game-card {

@@ -1,0 +1,129 @@
+.bg {
+    width: 100%;
+    height: 93.4vh;
+    background-repeat: no-repeat;
+    background-position: center top 17%; /* Adjusted to center the image vertically at 20% from the bottom */
+    background-size: cover;
+  }
+
+.my-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.my-form label {
+    margin-bottom: 10px;
+}
+
+.my-form input,
+.my-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.my-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.my-form button:hover {
+    background-color: #45a049;
+}
+
+.my-form h2 {
+    text-align: center;
+    direction: rtl;
+
+}
+
+.my-form label {
+    font-weight: bold;
+    direction: rtl;
+}
+.my-form p{
+    direction: rtl;
+    font-weight: bold;
+
+
+}
+.my-form2 {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.my-form2 label {
+    margin-bottom: 10px;
+}
+
+.my-form2 input,
+.my-form2 select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.my-form2 button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.my-form2 button:hover {
+    background-color: #45a049;
+}
+
+.my-form2 h2 {
+    text-align: center;
+    direction: rtl;
+
+}
+
+.my-form2 label {
+    font-weight: bold;
+    direction: rtl;
+}
+.my-form2 p{
+    direction: rtl;
+    font-weight: bold;
+
+
+}

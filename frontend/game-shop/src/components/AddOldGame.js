@@ -1,15 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
-import './AddGame.css'
-import background from '../image/new.jpg'
+import './AddOldGame.css'
 
-function AddGame() {
-  const {url} = useContext(AppContext)
+function AddOldGame() {
+  const { url } = useContext(AppContext);
   const [console, setConsole] = useState('');
   const [gameName, setGameName] = useState('');
   const [price, setPrice] = useState('');
   const [gameImg, setGameImg] = useState(null);
-  const token = window.localStorage.getItem('token')
+  const token = window.localStorage.getItem('token');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -24,42 +23,43 @@ function AddGame() {
     }
 
     // Send a POST request to the API endpoint
-    fetch(`${url}game/`, {
+    fetch(`${url}oldgame/`, {
       method: 'POST',
       body: formData,
       headers: {
         Authorization: `Token ${token}`,
       },
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(() => {
-      alert('המשחק התווסף בהצלחה');
-      window.location.replace('/');
-    })
-    .catch((error) => {
-      console.error('Error adding game:', error);
-    });
-  }
-  return (<>
-  <div style={{ backgroundImage: `url(${background})` }} className='bg'>
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(() => {
+        alert('המשחק התווסף בהצלחה');
+        window.location.replace('/');
+      })
+      .catch((error) => {
+        console.error('Error adding game:', error);
+      });
+  };
 
-    <form onSubmit={handleSubmit} className='my-form'>
+  return (
+    <form onSubmit={handleSubmit}>
       <label>
         Console:
         <select value={console} onChange={(event) => setConsole(event.target.value)}>
           <option value=""></option>
-          <option  className='option' value="PS3">PS3</option>
-          <option value="PS4">PS4</option>
-          <option value="PS5">PS5</option>
-          <option value="Xbox 360">Xbox 360</option>
-          <option value="Xbox One">Xbox One</option>
-          <option value="Xbox Series X/S">Xbox Series X/S</option>
-          <option value="Nintendo Switch">Nintendo Switch</option>
+          <option value="PS2">PS2</option>
+          <option value="PS ONE">PS ONE</option>
+          <option value="Wii">Wii</option>
+          <option value="PSP">PSP</option>
+          <option value="Game Boye">Game Boye</option>
+          <option value="Atari">Atari</option>
+          <option value="Nintendo DS">Nintendo DS</option>
+          <option value="Xbox Original">Xbox Original</option>
+          <option value="PC">PC</option>
         </select>
       </label>
       <label>
@@ -76,9 +76,7 @@ function AddGame() {
       </label>
       <button type="submit">Add Game</button>
     </form>
-    </div>
-    </>
   );
 }
 
-export default AddGame;
+export default AddOldGame;

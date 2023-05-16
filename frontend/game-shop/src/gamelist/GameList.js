@@ -25,9 +25,10 @@ function GameList() {
   }
 
   return (
-    <>
+    <> 
+    <SideBar />
       <div className="game-list">
-        <SideBar />
+       
 
         {storeData.map(
           ({ id, console, game_name, price, game_img, uploader }) => (

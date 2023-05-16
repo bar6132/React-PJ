@@ -25,6 +25,9 @@ function MyNavbar() {
           <NavDropdown.Item   style={{direction:'rtl', textAlign:'center'}}>
             <NavLink to='/profile'>פרופיל </NavLink>  
           </NavDropdown.Item>
+          <NavDropdown.Item   style={{direction:'rtl', textAlign:'center'}}>
+            <NavLink to='/mygames'> המשחקים שלי</NavLink>  
+          </NavDropdown.Item>
           <NavDropdown.Item href="#action/3.2" style={{direction:'rtl', textAlign:'center'}} >
             <NavLink to="/AddGameMenu"> הוסף משחק</NavLink>
           </NavDropdown.Item>

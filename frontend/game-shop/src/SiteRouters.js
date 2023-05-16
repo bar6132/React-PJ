@@ -1,15 +1,15 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
-import GameList from './pages/GameList';
+import GameList from './gamelist/GameList';
 import Home from './pages/Home';
-import SignUp from './components/SignUp';
+import SignUp from './signup/SignUp';
 import Logout from './components/Logout';
-import Login from './components/Login';
+import Login from './login/Login';
 import About from './pages/About';
-import AddGame from './components/AddGame';
-import AddOldGame from './components/AddOldGame';
+import AddGame from './addgame/AddGame';
+import AddOldGame from './addoldgame/AddOldGame';
 import AddGameMenu from './pages/AddGameMenu';
-import Profile from './components/Profile';
+import Profile from './profile/Profile';
 
 
 

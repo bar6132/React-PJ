@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
 import './AddOldGame.css'
+import background from '../image/old-video-game.jpg'
 
 function AddOldGame() {
   const { url } = useContext(AppContext);
@@ -46,7 +47,9 @@ function AddOldGame() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div style={{ backgroundImage: `url(${background})` }} className='bg' >
+    
+    <form onSubmit={handleSubmit} className="my-form">
       <label>
         Console:
         <select value={console} onChange={(event) => setConsole(event.target.value)}>
@@ -63,20 +66,20 @@ function AddOldGame() {
         </select>
       </label>
       <label>
-        Game Name:
+        שם המשחק : 
         <input type="text" value={gameName} onChange={(event) => setGameName(event.target.value)} />
       </label>
       <label>
-        Price:
+        מחיר :
         <input type="number" value={price} onChange={(event) => setPrice(event.target.value)} />
       </label>
       <label>
-        Game Image:
+        תמונה :
         <input type="file" onChange={(event) => setGameImg(event.target.files[0])} />
       </label>
-      <button type="submit">Add Game</button>
+      <button type="submit">הוסף משחק</button>
     </form>
-  );
-}
-
+  </div>
+);
+};
 export default AddOldGame;

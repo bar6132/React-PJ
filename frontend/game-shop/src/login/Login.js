@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { AppContext } from '../App';
 import background from '../image/2996302.jpg'
-import './logingstyle.css'
+import './login.css'
 
 function Login() {
   const {url} = useContext(AppContext)
@@ -52,13 +52,8 @@ function Login() {
   };
 
   return (
-    <div style={{
-      width: '100%',
-      height: '99%',
+    <div className='bg' style={{
       backgroundImage: `url(${background})`,
-      backgroundSize: "cover",
-      backgroundRepeat: 'no-repeat',
-      
   }}>
     <div className="container">
       <div className="form-container">

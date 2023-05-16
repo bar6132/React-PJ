@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AppContext } from '../App';
 import background from '../image/2537738.jpg'
-import './signupstyle.css'
+import './signup.css'
 
 
 function Signup() {
@@ -60,11 +60,8 @@ function Signup() {
     
       <div className="background-image"
      style={{
-        width: '100%',
-        height: '94.2vh',
         backgroundImage: `url(${background})`,
-        backgroundSize: "",
-        backgroundRepeat: 'no-repeat',
+       
         
     }}>
     <div >

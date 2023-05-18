@@ -10,25 +10,26 @@
     display: flex;
     flex-direction: column;
     max-width: 400px;
+    max-height: 600px;
     margin: auto;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 20px;
+    padding: px;
     background-color: #f0f0f0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .my-form label {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .my-form input,
 .my-form select {
     width: 100%;
-    padding: 8px;
+    padding: 1px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -37,7 +38,7 @@
 
 .my-form button {
     width: 100%;
-    padding: 10px;
+    padding: 1px;
     background-color: #4caf50;
     color: #fff;
     border: none;
@@ -70,7 +71,6 @@
     display: flex;
     flex-direction: column;
     width: 400px;
-    
     margin: auto;
     position: absolute;
     top: 50%;
@@ -127,3 +127,14 @@
 
 
 }
+@media (max-width: 600px) {
+    .my-form,
+    .my-form2 {
+      width: 50%;
+      left: 50%;
+      right: 0;
+      top: 57%; 
+      transform: translate(-50%, -50%);
+    }
+  }
+  

@@ -8,8 +8,8 @@ from rest_framework.authentication import BasicAuthentication, TokenAuthenticati
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from rest_framework.response import Response
-from .models import Game, OldSchool, UserProfile
-from .serializers import GameSerializer, OldSchoolSerializer, UserProfileSerializer, UserSerializer
+from .models import Game, UserProfile
+from .serializers import GameSerializer, UserProfileSerializer, UserSerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
@@ -108,8 +108,8 @@ def signup(request):
     }
     return Response(data, status=201)
 
-
-
+#
+#
 @api_view(['GET'])
 def games(request, pk=None):
     """
@@ -118,33 +118,31 @@ def games(request, pk=None):
     if request.method == 'GET':
         if pk is None:
             G = Game.objects.all()
-            O = OldSchool.objects.all()
             serializer = GameSerializer(G, many=True)
-            Oserializer = OldSchoolSerializer(O, many=True)
-            return Response(serializer.data + Oserializer.data)
+            return Response(serializer.data)
         else:
             G = Game.objects.get(pk=pk)
             serializer = GameSerializer(G)
             return Response(serializer.data)
 
 
-
-@api_view(['GET'])
-def oldgames(request, pk=None):
-    """
-    Get all games or one only
-    """
-    if request.method == 'GET':
-        if pk is None:
-            G = OldSchool.objects.all()
-            serializer = OldSchoolSerializer(G, many=True)
-            return Response(serializer.data)
-        else:
-            G = OldSchool.objects.get(pk=pk)
-            serializer = OldSchoolSerializer(G)
-            return Response(serializer.data)
-
-
+#
+# @api_view(['GET'])
+# def oldgames(request, pk=None):
+#     """
+#     Get all games or one only
+#     """
+#     if request.method == 'GET':
+#         if pk is None:
+#             G = OldSchool.objects.all()
+#             serializer = OldSchoolSerializer(G, many=True)
+#             return Response(serializer.data)
+#         else:
+#             G = OldSchool.objects.get(pk=pk)
+#             serializer = OldSchoolSerializer(G)
+#             return Response(serializer.data)
+#
+#
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -169,7 +167,9 @@ def game(request, pk=None):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            error_message = serializer.errors
+            print(f"Error adding game: {error_message}")
+            return Response({"error": error_message}, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'PUT':
         if pk is not None:
@@ -192,58 +192,49 @@ def game(request, pk=None):
             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-@authentication_classes([TokenAuthentication])
-def oldgame(request, pk=None):
-
-    if request.method == 'GET':
-        if pk is None:
-            G = OldSchool.objects.all()
-            serializer = OldSchoolSerializer(G, many=True)
-            return Response(serializer.data)
-        else:
-            G = OldSchool.objects.get(pk=pk)
-            serializer = OldSchoolSerializer(G)
-            return Response(serializer.data)
-
-    elif request.method == 'POST':
-        serializer = OldSchoolSerializer(data=request.data)
-        if serializer.is_valid():
-            # set the game's uploader to be the current user
-            serializer.validated_data['uploader_id'] = request.user.id
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'PUT':
-        if pk is not None:
-            G = OldSchool.objects.get(pk=pk)
-            serializer = OldSchoolSerializer(G, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        if pk is not None:
-            G = OldSchool.objects.get(pk=pk)
-            G.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-@api_view(['POST', 'GET'])
-def getPs5(request):    
-    if request.method == "GET":
-        game = Game.objects.filter(consol='PS5')
-        serializer = GameSerializer(game, many=True)
-        return Response(serializer)
-
-
+# @api_view(['GET', 'POST', 'PUT', 'DELETE'])
+# @authentication_classes([TokenAuthentication])
+# def oldgame(request, pk=None):
+#
+#     if request.method == 'GET':
+#         if pk is None:
+#             G = OldSchool.objects.all()
+#             serializer = OldSchoolSerializer(G, many=True)
+#             return Response(serializer.data)
+#         else:
+#             G = OldSchool.objects.get(pk=pk)
+#             serializer = OldSchoolSerializer(G)
+#             return Response(serializer.data)
+#
+#     elif request.method == 'POST':
+#         serializer = OldSchoolSerializer(data=request.data)
+#         if serializer.is_valid():
+#             # set the game's uploader to be the current user
+#             serializer.validated_data['uploader_id'] = request.user.id
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#     elif request.method == 'PUT':
+#         if pk is not None:
+#             G = OldSchool.objects.get(pk=pk)
+#             serializer = OldSchoolSerializer(G, data=request.data)
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return Response(serializer.data)
+#             else:
+#                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         else:
+#             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
+#
+#     elif request.method == 'DELETE':
+#         if pk is not None:
+#             G = OldSchool.objects.get(pk=pk)
+#             G.delete()
+#             return Response(status=status.HTTP_204_NO_CONTENT)
+#         else:
+#             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
+#
+#
+#

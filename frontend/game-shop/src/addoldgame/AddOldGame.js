@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../App';
+import axios from 'axios';
 import './AddOldGame.css'
 import background from '../image/old-video-game.jpg'
 
 function AddOldGame() {
   const { url } = useContext(AppContext);
+  const [gameType, setGameType] = useState('old');
   const [console, setConsole] = useState('');
   const [gameName, setGameName] = useState('');
   const [price, setPrice] = useState('');
@@ -16,27 +18,27 @@ function AddOldGame() {
 
     // Create a new FormData object to handle the file input
     const formData = new FormData();
+    formData.append('game_type', gameType);
+    
     formData.append('console', console);
     formData.append('game_name', gameName);
     formData.append('price', price);
     if (gameImg) {
       formData.append('game_img', gameImg);
     }
+    
+    window.console.log([...formData.entries()]);
 
     // Send a POST request to the API endpoint
-    fetch(`${url}oldgame/`, {
-      method: 'POST',
-      body: formData,
+   axios({
+      method: 'post',
+      url: `${url}game/`,
+      data: formData,
       headers: {
         Authorization: `Token ${token}`,
-      },
+        'content-type': 'multipart/form-data'
+      }
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
       .then(() => {
         alert('המשחק התווסף בהצלחה');
         window.location.replace('/');
@@ -45,6 +47,8 @@ function AddOldGame() {
         console.error('Error adding game:', error);
       });
   };
+
+
 
   return (
     <div style={{ backgroundImage: `url(${background})` }} className='bg' >

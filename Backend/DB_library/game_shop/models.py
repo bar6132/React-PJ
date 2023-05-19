@@ -17,39 +17,44 @@ class UserProfile(models.Model):
 
 
 class Game(models.Model):
-    CONSOLE_CHOICES = (
+    NEW_CONSOLE_CHOICES = [
         ('PS3', 'PS3'), ('PS4', 'PS4'), ('PS5', 'PS5'),
         ('Xbox 360', 'Xbox 360'), ('Xbox One', 'Xbox One'),
-        ('Xbox Series X/S', 'Xbox Series X/S'), ('Nintendo Switch', 'Nintendo Switch'))
+        ('Xbox Series X/S', 'Xbox Series X/S'), ('Nintendo Switch', 'Nintendo Switch')
+    ]
 
-    console = models.CharField(max_length=15, choices=CONSOLE_CHOICES, null=False, blank=False)
-    game_name = models.CharField(null=False, max_length=50)
-    price = models.PositiveIntegerField(null=False)
-    game_img = models.ImageField(null=True, blank=True, upload_to="images/")
-    uploader = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-
-    class Meta:
-        db_table = "Game"
-
-    def __str__(self):
-        return f"{self.console , self.game_name}"
-
-
-class OldSchool(models.Model):
-    CONSOLE_CHOICES = (
+    OLD_CONSOLE_CHOICES = [
         ('PS2', 'PS2'), ('PS ONE', 'PS ONE'), ('Wii', 'Wii'), ('PSP', 'PSP'),
         ('Game Boy', 'Game Boy'), ('Atari', 'Atari'), ('Nintendo DS', 'Nintendo DS'),
         ('Xbox Original', 'Xbox Original'), ('PC', 'PC')
-    )
+    ]
 
-    console = models.CharField(max_length=13, choices=CONSOLE_CHOICES, null=False, blank=False)
+    GAME_TYPE_CHOICES = [
+        ('new', 'New'),
+        ('old', 'Old'),
+    ]
+
+    game_type = models.CharField(max_length=3, choices=GAME_TYPE_CHOICES)
+    console = models.CharField(max_length=15, null=False, blank=False)
     game_name = models.CharField(null=False, max_length=50)
     price = models.PositiveIntegerField(null=False)
     game_img = models.ImageField(null=True, blank=True, upload_to="images/")
     uploader = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
 
+    def console_choices(self):
+        if self.game_type == 'new':
+            return Game.NEW_CONSOLE_CHOICES
+        elif self.game_type == 'old':
+            return Game.OLD_CONSOLE_CHOICES
+
+    def save(self, *args, **kwargs):
+        self._meta.get_field('console').choices = self.console_choices()
+        super().save(*args, **kwargs)
+
+
     class Meta:
-        db_table = "Old School"
+        db_table = "Games"
 
     def __str__(self):
-        return f"{self.console , self.game_name}"
+        return f"{self.game_type} - {self.console} - {self.game_name}"
+

@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import OldSchool, Game, UserProfile, User
+from .models import Game, UserProfile, User
 
 
-class OldSchoolSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OldSchool
-        fields = '__all__'
+# class OldSchoolSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = OldSchool
+#         fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):

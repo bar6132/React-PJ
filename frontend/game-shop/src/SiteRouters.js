@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import SignUp from './signup/SignUp';
 import Logout from './components/Logout';
 import Login from './login/Login';
-import About from './pages/About';
+import About from './about/About';
 import AddGame from './addgame/AddGame';
 import AddOldGame from './addoldgame/AddOldGame';
 import AddGameMenu from './pages/AddGameMenu';

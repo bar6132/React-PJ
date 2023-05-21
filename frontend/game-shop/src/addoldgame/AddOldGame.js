@@ -6,7 +6,6 @@ import background from '../image/old-video-game.jpg'
 
 function AddOldGame() {
   const { url } = useContext(AppContext);
-  const [gameType, setGameType] = useState('old');
   const [console, setConsole] = useState('');
   const [gameName, setGameName] = useState('');
   const [price, setPrice] = useState('');
@@ -18,7 +17,7 @@ function AddOldGame() {
 
     // Create a new FormData object to handle the file input
     const formData = new FormData();
-    formData.append('game_type', gameType);
+    formData.append('game_type', 'Old');
     
     formData.append('console', console);
     formData.append('game_name', gameName);

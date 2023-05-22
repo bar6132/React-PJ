@@ -17,21 +17,18 @@ class UserProfile(models.Model):
 
 
 class Game(models.Model):
-    NEW_CONSOLE_CHOICES = [
+    CONSOLE_CHOICES = [
         ('PS3', 'PS3'), ('PS4', 'PS4'), ('PS5', 'PS5'),
         ('Xbox 360', 'Xbox 360'), ('Xbox One', 'Xbox One'),
-        ('Xbox Series X/S', 'Xbox Series X/S'), ('Nintendo Switch', 'Nintendo Switch')
-    ]
-
-    OLD_CONSOLE_CHOICES = [
+        ('Xbox Series X/S', 'Xbox Series X/S'), ('Nintendo Switch', 'Nintendo Switch'),
         ('PS2', 'PS2'), ('PS ONE', 'PS ONE'), ('Wii', 'Wii'), ('PSP', 'PSP'),
         ('Game Boy', 'Game Boy'), ('Atari', 'Atari'), ('Nintendo DS', 'Nintendo DS'),
         ('Xbox Original', 'Xbox Original'), ('PC', 'PC')
     ]
 
     GAME_TYPE_CHOICES = [
-        ('new', 'New'),
-        ('old', 'Old'),
+        ('New', 'New'),
+        ('Old', 'Old'),
     ]
 
     game_type = models.CharField(max_length=3, choices=GAME_TYPE_CHOICES)
@@ -40,17 +37,6 @@ class Game(models.Model):
     price = models.PositiveIntegerField(null=False)
     game_img = models.ImageField(null=True, blank=True, upload_to="images/")
     uploader = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-
-    def console_choices(self):
-        if self.game_type == 'new':
-            return Game.NEW_CONSOLE_CHOICES
-        elif self.game_type == 'old':
-            return Game.OLD_CONSOLE_CHOICES
-
-    def save(self, *args, **kwargs):
-        self._meta.get_field('console').choices = self.console_choices()
-        super().save(*args, **kwargs)
-
 
     class Meta:
         db_table = "Games"

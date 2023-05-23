@@ -36,3 +36,9 @@ a {
 }
 
 
+.MyNav a.active{
+  text-decoration: none; 
+  color: red;
+}
+
+

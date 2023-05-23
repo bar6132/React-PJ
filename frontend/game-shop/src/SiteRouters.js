@@ -11,6 +11,8 @@ import AddOldGame from './addoldgame/AddOldGame';
 import AddGameMenu from './pages/AddGameMenu';
 import Profile from './profile/Profile';
 import MyGames from './mygames/MyGames';
+import ContactUs from './contactus/ContactUS';
+
 
 
 
@@ -28,6 +30,8 @@ function SiteRouters() {
           <Route path='/AddGameMenu' element={<AddGameMenu/>}/>
           <Route path='/Profile' element={<Profile/>}/>
           <Route path='/MyGames' element={<MyGames/>}/>
+          <Route path='/ContactUs' element={<ContactUs/>}/>
+
         </Routes>
       </>);
   }

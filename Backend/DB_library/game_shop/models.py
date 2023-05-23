@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class UserProfile(models.Model):
@@ -44,3 +45,18 @@ class Game(models.Model):
     def __str__(self):
         return f"{self.game_type} - {self.console} - {self.game_name}"
 
+
+class ContactMsg(models.Model):
+    subject = models.CharField(max_length=100)
+    body = models.CharField(max_length=1000)
+    email = models.EmailField()
+    status = models.CharField(max_length=20, choices=[('in_progress', 'In Progress'), ('completed', 'Completed')])
+    sent_time = models.DateTimeField(default=timezone.now)
+    last_edited_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "Mail"
+        verbose_name_plural = "Mail"
+
+    def __str__(self):
+        return f"{self.sent_time} - {self.subject} - {self.email}"

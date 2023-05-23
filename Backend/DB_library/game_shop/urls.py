@@ -17,12 +17,7 @@ urlpatterns = [
     path('games/<int:pk>', views.games),
     path('game/', views.game),
     path('game/<int:pk>', views.game),
-    # path('oldgames/', views.oldgames),
-    # path('oldgames/<int:pk>', views.oldgames),
-    # path('oldgame/<int:pk>', views.oldgame),
-    # path('oldgame/', views.oldgame),
-
-
+    path('inbox/', views.inbox)
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

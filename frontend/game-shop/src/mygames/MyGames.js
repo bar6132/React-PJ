@@ -59,7 +59,7 @@ function EditGameForm({ gameData, onHide, gameId }) {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          {formData.game_type === "new" || formData.game_type === "old" ? (
+          {formData.game_type === "New" || formData.game_type === "old" ? (
             <div className="form-group">
               <label htmlFor="console">Console:</label>
               <select
@@ -68,10 +68,7 @@ function EditGameForm({ gameData, onHide, gameId }) {
                 value={formData.console}
                 onChange={handleInputChange}
               >
-                <option value=""></option>
-                <option className="option" value="PS3">
-                  PS3
-                </option>
+                <option value="PS3">PS3</option>
                 <option value="PS4">PS4</option>
                 <option value="PS5">PS5</option>
                 <option value="Xbox 360">Xbox 360</option>
@@ -89,7 +86,6 @@ function EditGameForm({ gameData, onHide, gameId }) {
                 value={formData.console}
                 onChange={handleInputChange}
               >
-                <option value=""></option>
                 <option value="PS2">PS2</option>
                 <option value="PS ONE">PS ONE</option>
                 <option value="Wii">Wii</option>

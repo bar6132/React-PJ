@@ -6,6 +6,8 @@ import Logout from "./components/Logout";
 
 function MyNavbar() {
   const token = localStorage.getItem("token");
+  const UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
+  const isSuperUser = UserProfile?.is_superuser || false;
 
   return (
     <Navbar bg="dark" variant="dark" className="MyNav">
@@ -38,10 +40,12 @@ function MyNavbar() {
             <NavLink to="/mygames"> המשחקים שלי</NavLink>
           </NavDropdown.Item>
           <NavDropdown.Item
-            href="#action/3.2"
             style={{ direction: "rtl", textAlign: "center" }}
           >
             <NavLink to="/AddGameMenu"> הוסף משחק</NavLink>
+          </NavDropdown.Item>
+          <NavDropdown.Item style={{ direction: "rtl", textAlign: "center" }}>
+          {isSuperUser ? <NavLink to="/UserList" > משתמשים</NavLink> : ""}
           </NavDropdown.Item>
           <NavDropdown.Item style={{ direction: "rtl", textAlign: "center" }}>
             <Logout />

@@ -35,7 +35,8 @@ def get_user_data(request):
         'email': user_profile.email,
         'location': user_profile.location,
         'age': user_profile.age,
-        'phone': user_profile.phone
+        'phone': user_profile.phone,
+        'is_superuser': user_profile.is_superuser
     }
     return Response(response_data)
 
@@ -81,7 +82,8 @@ def signup(request):
     except IntegrityError:
         return Response({'error': 'Username already exists'}, status=400)
 
-    user_profile = UserProfile.objects.create(user=user, location=location, age=age, phone=phone)
+    user_profile = UserProfile.objects.create(user=user, location=location, age=age, phone=phone,
+                                             )
 
     token, created = Token.objects.get_or_create(user=user)
 

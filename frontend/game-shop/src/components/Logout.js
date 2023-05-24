@@ -7,6 +7,8 @@ function Logout(props) {
     localStorage.removeItem('UserProfile');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('isSuperUser');
+
     window.location.href = '/';
   };
 

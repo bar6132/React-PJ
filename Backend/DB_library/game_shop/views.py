@@ -1,12 +1,11 @@
 from rest_framework import status
-from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from .models import Game, UserProfile, ContactMsg
-from .serializers import GameSerializer, UserProfileSerializer, UserSerializer, ContactMsgSerializer
+from .serializers import GameSerializer, UserProfileSerializer, ContactMsgSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
 
@@ -21,6 +20,43 @@ def my_view(request):
     return Response(response_data)
 
 
+@api_view(['GET', 'PATCH', 'DELETE'])
+@authentication_classes([TokenAuthentication])
+def manage_users(request):
+    if request.method == 'GET':
+        users = User.objects.all()
+        user_data = []
+        for user in users:
+            user_data.append({
+                'id': user.id,
+                'username': user.username,
+                'is_superuser': user.is_superuser,
+            })
+        return Response(user_data)
+
+    if request.method == 'PATCH':
+        user_id = request.data.get('user_id')
+        is_superuser = request.data.get('is_superuser')
+
+        try:
+            user = User.objects.get(id=user_id)
+            user.is_superuser = is_superuser
+            user.save()
+            return Response({'message': 'Superuser status updated successfully.'})
+        except User.DoesNotExist:
+            return Response({'message': 'User not found.'}, status=404)
+
+    if request.method == 'DELETE':
+        user_id = request.data.get('user_id')
+
+        try:
+            user = User.objects.get(id=user_id)
+            user.delete()
+            return Response({'message': 'User deleted successfully.'})
+        except User.DoesNotExist:
+            return Response({'message': 'User not found.'}, status=404)
+
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def get_user_data(request):
@@ -28,6 +64,7 @@ def get_user_data(request):
     user_profile = UserProfile.objects.get(user=user)
     user_data = {
         'username': user.username,
+        'is_superuser': user.is_superuser,
     }
     response_data = {
         'user': user_data,
@@ -36,10 +73,8 @@ def get_user_data(request):
         'location': user_profile.location,
         'age': user_profile.age,
         'phone': user_profile.phone,
-        'is_superuser': user_profile.is_superuser
     }
     return Response(response_data)
-
 
 
 @api_view(['GET', 'PUT'])
@@ -61,8 +96,6 @@ def get_profile(request, pk):
             return Response(serializer.errors, status=400)
 
 
-User = get_user_model()
-
 @csrf_exempt
 @api_view(['POST'])
 def signup(request):
@@ -82,8 +115,7 @@ def signup(request):
     except IntegrityError:
         return Response({'error': 'Username already exists'}, status=400)
 
-    user_profile = UserProfile.objects.create(user=user, location=location, age=age, phone=phone,
-                                             )
+    UserProfile.objects.create(user=user, location=location, age=age, phone=phone)
 
     token, created = Token.objects.get_or_create(user=user)
 
@@ -104,8 +136,7 @@ def signup(request):
     }
     return Response(data, status=201)
 
-#
-#
+
 @api_view(['GET'])
 def games(request, pk=None):
     """
@@ -113,12 +144,12 @@ def games(request, pk=None):
     """
     if request.method == 'GET':
         if pk is None:
-            G = Game.objects.all()
-            serializer = GameSerializer(G, many=True)
+            g = Game.objects.all()
+            serializer = GameSerializer(g, many=True)
             return Response(serializer.data)
         else:
-            G = Game.objects.get(pk=pk)
-            serializer = GameSerializer(G)
+            g = Game.objects.get(pk=pk)
+            serializer = GameSerializer(g)
             return Response(serializer.data)
 
 
@@ -128,12 +159,12 @@ def game(request, pk=None):
 
     if request.method == 'GET':
         if pk is None:
-            G = Game.objects.all()
-            serializer = GameSerializer(G, many=True)
+            g = Game.objects.all()
+            serializer = GameSerializer(g, many=True)
             return Response(serializer.data)
         else:
-            G = Game.objects.get(pk=pk)
-            serializer = GameSerializer(G)
+            g = Game.objects.get(pk=pk)
+            serializer = GameSerializer(g)
             return Response(serializer.data)
 
     elif request.method == 'POST':
@@ -150,8 +181,8 @@ def game(request, pk=None):
 
     elif request.method == 'PUT':
         if pk is not None:
-            G = Game.objects.get(pk=pk)
-            serializer = GameSerializer(G, data=request.data)
+            g = Game.objects.get(pk=pk)
+            serializer = GameSerializer(g, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
@@ -162,20 +193,23 @@ def game(request, pk=None):
 
     elif request.method == 'DELETE':
         if pk is not None:
-            G = Game.objects.get(pk=pk)
-            G.delete()
+            g = Game.objects.get(pk=pk)
+            g.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST'])
-def inbox(request):
+@api_view(['GET', 'POST', 'PATCH'])
+def inbox(request, pk=None):
     if request.method == 'GET':
-        if 'pk' in request.GET:
-            note = ContactMsg.objects.get(pk=request.GET['pk'])
-            serializer = ContactMsgSerializer(note)
-            return Response(serializer.data)
+        if pk is not None:
+            try:
+                note = ContactMsg.objects.get(pk=pk)
+                serializer = ContactMsgSerializer(note)
+                return Response(serializer.data)
+            except ContactMsg.DoesNotExist:
+                return Response({'error': 'Message not found.'}, status=404)
         else:
             notes = ContactMsg.objects.all()
             serializer = ContactMsgSerializer(notes, many=True)
@@ -189,3 +223,17 @@ def inbox(request):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+
+    elif request.method == 'PATCH':
+        if pk is not None:
+            try:
+                note = ContactMsg.objects.get(pk=pk)
+                note.status = 'completed'
+                note.save()
+                serializer = ContactMsgSerializer(note)
+                return Response(serializer.data)
+            except ContactMsg.DoesNotExist:
+                return Response({'error': 'Message not found.'}, status=404)
+        else:
+            return Response({'error': 'Message ID (pk) is required for marking as completed.'}, status=400)
+

@@ -8,7 +8,6 @@ class UserProfile(models.Model):
     age = models.PositiveIntegerField()
     phone = models.PositiveIntegerField(null=False)
     email = models.EmailField(null=False)
-    is_superuser = models.BooleanField(default=False)
     user = models.OneToOneField(null=True, to=User, on_delete=models.CASCADE)
 
     class Meta:

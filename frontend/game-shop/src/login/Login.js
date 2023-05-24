@@ -4,10 +4,9 @@ import background from '../image/2996302.jpg'
 import './login.css'
 
 function Login() {
-  const {url} = useContext(AppContext)
+  const { url } = useContext(AppContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
 
   const handleLogin = async () => {
     const response = await fetch(`${url}obtain-token`, {
@@ -20,14 +19,13 @@ function Login() {
         password: password
       })
     });
-  
+
     if (response.ok) {
       const data = await response.json();
       const token = data.token;
       localStorage.setItem('token', token);
       localStorage.setItem('username', username);
-      
-  
+
       // Make another request to get the user's information
       const userResponse = await fetch(`${url}get-user-data`, {
         headers: {
@@ -36,13 +34,18 @@ function Login() {
       });
       const userData = await userResponse.json();
       localStorage.setItem('UserProfile', JSON.stringify(userData));
-  
-      alert("התחברת בהצלחה ! ");
+
+      // Check if the user is a superuser
+      const isSuperUser = userData.user.is_superuser;
+      localStorage.setItem('isSuperUser', isSuperUser);
+
+      alert("התחברת בהצלחה!");
       window.location.href = "/";
     } else {
-      alert("התחברות נכשלה , אחד או יותר מאמצעי הזיהוי שגויים, נסה שנית ");
+      alert("התחברות נכשלה, אחד או יותר מאמצעי הזיהוי שגויים, נסה שנית");
     }
   }
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -50,6 +53,8 @@ function Login() {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+
+
 
   return (
     <div className='bg' style={{

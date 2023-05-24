@@ -6,9 +6,9 @@ import Logout from "./components/Logout";
 
 function MyNavbar() {
   const token = localStorage.getItem("token");
-  const UserProfile = JSON.parse(localStorage.getItem("UserProfile"));
-  const isSuperUser = UserProfile?.is_superuser || false;
-
+  const SuperUser = JSON.parse(localStorage.getItem("isSuperUser"));
+  const isSuperUser = SuperUser ?? false;
+  
   return (
     <Navbar bg="dark" variant="dark" className="MyNav">
       <NavLink to="/" activeclassname="active">
@@ -39,14 +39,28 @@ function MyNavbar() {
           <NavDropdown.Item style={{ direction: "rtl", textAlign: "center" }}>
             <NavLink to="/mygames"> המשחקים שלי</NavLink>
           </NavDropdown.Item>
-          <NavDropdown.Item
-            style={{ direction: "rtl", textAlign: "center" }}
-          >
+          <NavDropdown.Item style={{ direction: "rtl", textAlign: "center" }}>
             <NavLink to="/AddGameMenu"> הוסף משחק</NavLink>
           </NavDropdown.Item>
-          <NavDropdown.Item style={{ direction: "rtl", textAlign: "center" }}>
-          {isSuperUser ? <NavLink to="/UserList" > משתמשים</NavLink> : ""}
-          </NavDropdown.Item>
+
+          {isSuperUser ? (
+            <div>
+              <NavDropdown.Item
+                style={{ direction: "rtl", textAlign: "center" }}
+              >
+                <NavLink to="/UserList"> משתמשים</NavLink>
+              </NavDropdown.Item>
+            
+              <NavDropdown.Item
+                style={{ direction: "rtl", textAlign: "center" }}
+              >
+                <NavLink to="/Inbox"> תיבת פניות</NavLink>
+              </NavDropdown.Item>
+            </div>
+          ) : (
+            ""
+          )}
+
           <NavDropdown.Item style={{ direction: "rtl", textAlign: "center" }}>
             <Logout />
           </NavDropdown.Item>

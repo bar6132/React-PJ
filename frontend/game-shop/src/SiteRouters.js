@@ -12,6 +12,8 @@ import AddGameMenu from './pages/AddGameMenu';
 import Profile from './profile/Profile';
 import MyGames from './mygames/MyGames';
 import ContactUs from './contactus/ContactUS';
+import UserList from './userlist/UserList';
+import Textmsg from './inbox/Textmsg';
 
 
 
@@ -31,6 +33,8 @@ function SiteRouters() {
           <Route path='/Profile' element={<Profile/>}/>
           <Route path='/MyGames' element={<MyGames/>}/>
           <Route path='/ContactUs' element={<ContactUs/>}/>
+          <Route path='/UserList' element={<UserList/>}/>
+          <Route path='/Inbox' element={<Textmsg/>}/>
 
         </Routes>
       </>);

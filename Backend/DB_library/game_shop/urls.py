@@ -5,19 +5,20 @@ from django.conf.urls.static import static
 from . import views
 from django.contrib.auth.models import User
 
-from .views import get_user_data
 
 urlpatterns = [
     path('signup', views.signup),
     path('obtain-token', obtain_auth_token),
-    path('get-user-data', get_user_data),
+    path('get-user-data', views.get_user_data),
+    path('get-all-users', views.manage_users),
+    path('manage-users/', views.manage_users),
     path('my_profile/<int:pk>', views.get_profile),
-    # path('pp', views.get_pp),
     path('games/', views.games),
     path('games/<int:pk>', views.games),
     path('game/', views.game),
     path('game/<int:pk>', views.game),
-    path('inbox/', views.inbox)
+    path('inbox/', views.inbox),
+    path('inbox/<int:pk>', views.inbox)
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

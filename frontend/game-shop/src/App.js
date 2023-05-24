@@ -21,8 +21,6 @@ function App() {
 
         const [gamesData] = await Promise.all([
           gamesResponse.json(),
-          // Remove this console.log statement ↓
-          // console.log(gamesData)
         ]);
 
         setStoreData(gamesData);

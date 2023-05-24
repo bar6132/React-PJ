@@ -25,11 +25,11 @@ function ContactUs() {
   };
 
   return (
-    <div>
-      <h2>Send Message</h2>
-      <form onSubmit={handleSubmit}>
+    <div  className="contact-container">
+      <h2>שלח הודעה</h2>
+      <form onSubmit={handleSubmit} className="contact-form">
         <div>
-          <label htmlFor="subject">Subject:</label>
+          <label htmlFor="subject">נושא:</label>
           <input
             type="text"
             id="subject"
@@ -39,7 +39,7 @@ function ContactUs() {
           />
         </div>
         <div>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">אימייל:</label>
           <input
             type="email"
             id="email"
@@ -49,14 +49,13 @@ function ContactUs() {
           />
         </div>
         <div>
-          <label htmlFor="body">Message Body:</label>
+          <label htmlFor="body">תוכן:</label>
           <textarea
             id="body"
             name="body"
             value={body}
             onChange={(e) => setBody(e.target.value)}
             maxLength={800} 
-            style={{ resize: 'none',  width: '400px', height:'200px' }} 
           ></textarea>
         </div>
         <button type="submit">Send</button>

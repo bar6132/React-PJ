@@ -14,6 +14,7 @@ import MyGames from './mygames/MyGames';
 import ContactUs from './contactus/ContactUS';
 import UserList from './userlist/UserList';
 import Textmsg from './inbox/Textmsg';
+import SideBar from './components/SideBar';
 
 
 
@@ -35,7 +36,6 @@ function SiteRouters() {
           <Route path='/ContactUs' element={<ContactUs/>}/>
           <Route path='/UserList' element={<UserList/>}/>
           <Route path='/Inbox' element={<Textmsg/>}/>
-
         </Routes>
       </>);
   }

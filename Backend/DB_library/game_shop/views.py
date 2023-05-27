@@ -170,9 +170,8 @@ def game(request, pk=None):
     elif request.method == 'POST':
         serializer = GameSerializer(data=request.data)
         if serializer.is_valid():
-            # set the game's uploader to be the current user
-            serializer.validated_data['uploader_id'] = request.user.id
-            serializer.save()
+            uploader = UserProfile.objects.get(user=request.user)
+            serializer.save(uploader=uploader)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             error_message = serializer.errors

@@ -42,3 +42,29 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.filter-section {
+  position: absolute;
+  top: calc(4px + 50px);
+  right: 0;
+  height: calc(100% - 60px); 
+  width: 15%;
+  background-color: white;
+}
+
+.head {
+  text-align: center;
+  padding: 1rem;
+  
+}
+
+.filter-section input{
+  direction: rtl;
+  position: absolute;
+  right: 1rem;
+}
+
+.filter-section select {
+  position: absolute;
+  right: 1rem;
+}

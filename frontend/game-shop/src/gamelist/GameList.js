@@ -86,7 +86,7 @@ import React, { useState, useContext } from "react";
 import { AppContext } from "../App";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import SideBar from "../components/SideBar";
+// import SideBar from "../components/SideBar";
 import nopic from "../image/no-pic.jpg";
 import "./GameList.css";
 
@@ -125,17 +125,20 @@ function GameList() {
       {/* <SideBar /> */}
       <div className="game-list">
         <div className="filter-section">
+          <h2 className="head">חפש</h2>
           <input
             type="text"
-            placeholder="Filter by game name"
+            placeholder="סינון משחק לפי שם"
             value={gameNameFilter}
             onChange={(e) => setGameNameFilter(e.target.value)}
           />
-          <select
+          <br/>
+          <br/>
+          <select 
             value={consoleFilter}
             onChange={(e) => setConsoleFilter(e.target.value)}
           >
-            <option value="">All Consoles</option>
+            <option value="" >All Consoles</option>
             {consoles.map((console) => (
               <option value={console} key={console}>
                 {console}

@@ -1,11 +1,11 @@
 .sidebar {
-    position: absolute;
-    top: calc(4px + 50px);
-    right: 0;
-    height: calc(100% - 60px); 
-    width: 15%;
-    background-color: white;
-  }
+  position: absolute;
+  top: calc(4px + 50px);
+  right: 0;
+  height: calc(100% - 60px); 
+  width: 15%;
+  background-color: white;
+}
   
   /* Styles for links inside sidebar */
   .sidebar a {

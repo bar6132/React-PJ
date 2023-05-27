@@ -2,7 +2,7 @@
 // import { Stack, Typography, Slider, TextField } from "@mui/material";
 // import './sidebarstyle.css'
 // import { Button } from 'react-bootstrap';
-// import  back from '../image/back.jpg'
+// import  back from '../image/old.png'
 // import axios from "axios";
 // import { AppContext } from "../App";
 

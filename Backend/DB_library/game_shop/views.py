@@ -118,13 +118,14 @@ def signup(request):
     UserProfile.objects.create(user=user, location=location, age=age, phone=phone, email=email)
 
     token, created = Token.objects.get_or_create(user=user)
+    user_profile = UserProfile.objects.get(user=user)
 
     data = {
         "message": f"New user created with ID: {user.id}",
         "token": token.key,
         'username': username,
         "user": {
-            "id": user.id,
+            "id": user_profile.id,
             "username": username,
             "profile": {
                 "location": location,

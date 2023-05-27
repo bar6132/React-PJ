@@ -1,12 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.core.validators import RegexValidator
 
 
 class UserProfile(models.Model):
+    number_regex = RegexValidator(
+        regex=r'^[0-9]+$',
+        message="Only numbers from 0 to 9 are allowed."
+    )
     location = models.CharField(null=False, max_length=50)
     age = models.PositiveIntegerField()
-    phone = models.PositiveIntegerField(null=False)
+    phone = models.CharField(
+        max_length=10,
+        validators=[number_regex]
+    )
     email = models.EmailField(null=False)
     user = models.OneToOneField(null=True, to=User, on_delete=models.CASCADE)
 

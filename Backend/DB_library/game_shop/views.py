@@ -115,7 +115,7 @@ def signup(request):
     except IntegrityError:
         return Response({'error': 'Username already exists'}, status=400)
 
-    UserProfile.objects.create(user=user, location=location, age=age, phone=phone)
+    UserProfile.objects.create(user=user, location=location, age=age, phone=phone, email=email)
 
     token, created = Token.objects.get_or_create(user=user)
 

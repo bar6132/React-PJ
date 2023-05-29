@@ -1,24 +1,17 @@
 import React from "react";
-import background from "../image/2996302.jpg";
+import background from "../image/home.jpg";
 import { useContext } from "react";
 import { AppContext } from "../App";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import nopic from "../image/no-pic.jpg";
-import "../gamelist/GameList.css";
+import "./Home.css";
 
 function Home() {
   const { storeData } = useContext(AppContext);
   console.log(storeData);
   const url = "http://127.0.0.1:8000/api";
-  const userProfile = JSON.parse(localStorage.getItem("UserProfile"));
-  const currentUser = userProfile?.id;
 
-
-  const handleEditClick = (id) => {
-    // Add your logic for handling the "edit" click here
-    console.log("Edit clicked for game ID:", id);
-  };
 
   // Add a null/undefined check before calling map()
   if (storeData === null || storeData === undefined) {
@@ -29,15 +22,15 @@ function Home() {
 
   return (
     <div
-      className="bg"
+      className="hbg"
       style={{
         backgroundImage: `url(${background})`,
       }}
     >
       <h1 style={{ textAlign: "center" }}>ברוך הבאה לארקייד</h1>
-      <div className="game-list">
+      <div className="game-list center">
         {recentGames.map(
-          ({ id, console, game_name, price, game_img, uploader }) => (
+          ({ id, console, game_name, price, game_img }) => (
             <div key={id} className="game-card">
               {" "}
               <Card>
@@ -61,22 +54,9 @@ function Home() {
                   <ListGroup.Item className="game-details-item">
                     מחיר : ₪{price}{" "}
                   </ListGroup.Item>{" "}
-                  <ListGroup.Item className="game-details-item">
-                    מעלה על ידי : {uploader}{" "}
-                  </ListGroup.Item>{" "}
                 </ListGroup>{" "}
                 <Card.Body>
                   {" "}
-                  {uploader === currentUser && ( // check if the uploader matches the current user
-                    <Card.Body>
-                      <Card.Link
-                        className="game-edit-link"
-                        onClick={() => handleEditClick(id)}
-                      >
-                        ערוך
-                      </Card.Link>
-                    </Card.Body>
-                  )}
                   <Card.Link className="game-contact-link" href="#">
                     פרטי קשר{" "}
                   </Card.Link>

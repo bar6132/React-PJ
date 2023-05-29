@@ -14,6 +14,7 @@ function Signup() {
   const [age, setAge] = useState("");
   const [phone, setPhone] = useState("");
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
@@ -36,6 +37,7 @@ function Signup() {
           phone,
         }),
       });
+    
 
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -47,6 +49,7 @@ function Signup() {
       localStorage.setItem("username", username);
       localStorage.setItem("token", data.token);
       localStorage.setItem("UserProfile", JSON.stringify(data.user));
+      
 
       // Redirect to home page or some other destination
       window.location.href = "/";
@@ -102,6 +105,20 @@ function Signup() {
         <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </label>
       <br />
+      <div class="checkbox-container">
+        <input type="checkbox" id="phone-checkbox"/>
+        <label for="phone-checkbox">by phone</label>
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="email-checkbox"/>
+        <label for="email-checkbox">by email</label>
+        </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="website-checkbox"/>
+        <label for="website-checkbox">by website</label>
+        </div>
       <button type="submit">הרשם</button>
     </form>
     </div>

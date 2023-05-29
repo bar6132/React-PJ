@@ -2,6 +2,8 @@ import "./ContactUs.css";
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AppContext } from "../App";
+import background from '../image/צורקשר.jpg'
+
 
 function ContactUs() {
   const { url } = useContext(AppContext);
@@ -25,6 +27,11 @@ function ContactUs() {
   };
 
   return (
+    <div className=""
+    style={{
+      backgroundImage: `url(${background})`,
+    }}
+      >
     <div  className="contact-container">
       <h2>שלח הודעה</h2>
       <form onSubmit={handleSubmit} className="contact-form">
@@ -60,6 +67,7 @@ function ContactUs() {
         </div>
         <button type="submit">Send</button>
       </form>
+    </div>
     </div>
   );
 }

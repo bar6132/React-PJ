@@ -27,7 +27,7 @@ function Home() {
         backgroundImage: `url(${background})`,
       }}
     >
-      <h1 style={{ textAlign: "center" }}>ברוך הבאה לארקייד</h1>
+      <h1 className="head">ברוך הבאה לארקייד</h1>
       <div className="game-list center">
         {recentGames.map(
           ({ id, console, game_name, price, game_img }) => (

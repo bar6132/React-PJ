@@ -239,7 +239,7 @@ function GameList() {
     <>
       <div className="game-list">
         <div className="filter-section">
-          <h2 className="head">חפש</h2>
+          <h2 className="headre">חפש</h2>
           <input
             type="text"
             placeholder="סינון משחק לפי שם"

@@ -38,3 +38,8 @@ form {
     background-color: #45a049;
   }
   
+
+  .checkbox-container {
+    display: inline-block;
+    margin-right: 10px;
+  }

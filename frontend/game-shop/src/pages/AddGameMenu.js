@@ -1,7 +1,7 @@
 import React from 'react';
 import './AddGameMenu.css';
 import { NavLink } from 'react-router-dom';
-import bk from '../image/addgame.jpg'
+import bk from '../image/addgame2.jpg'
 
 function AddGameMenu() {
   return (

@@ -8,9 +8,12 @@ function Profile() {
   const [profileData, setProfileData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [location, setLocation] = useState("");
-  const [age, setAge] = useState(0); // changed default value to 0
+  const [age, setAge] = useState(0);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [phonecontact, setPhonecontact] = useState(false);
+  const [emailcontact, setEmailcontact] = useState(false);
+  const [webcontact, setWebcontact] = useState(false);
   const UserProfile = window.localStorage.getItem("UserProfile");
   const userId = JSON.parse(UserProfile).id;
 
@@ -19,10 +22,13 @@ function Profile() {
       .then((response) => response.json())
       .then((data) => {
         setProfileData(data);
-        setLocation(data.location || ""); // added default value for each field
+        setLocation(data.location || "");
         setAge(data.age || 0);
         setPhone(data.phone || "");
         setEmail(data.email || "");
+        setPhonecontact(data.phonecontact || false);
+        setEmailcontact(data.emailcontact || false);
+        setWebcontact(data.webcontact || false);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -36,7 +42,7 @@ function Profile() {
   };
 
   const handleAgeChange = (event) => {
-    setAge(+event.target.value); // converted to number using unary plus operator
+    setAge(+event.target.value);
   };
 
   const handlePhoneChange = (event) => {
@@ -47,6 +53,18 @@ function Profile() {
     setEmail(event.target.value);
   };
 
+  const handlePhonecontactChange = (event) => {
+    setPhonecontact(event.target.checked);
+  };
+  
+  const handleEmailcontactChange = (event) => {
+    setEmailcontact(event.target.checked);
+  };
+  
+  const handleWebcontactChange = (event) => {
+    setWebcontact(event.target.checked);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const updatedData = {
@@ -54,6 +72,9 @@ function Profile() {
       age: age || profileData.age,
       phone: phone || profileData.phone,
       email: email || profileData.email,
+      phonecontact: phonecontact,
+      emailcontact: emailcontact,
+      webcontact: webcontact ,
     };
     fetch(`${url}my_profile/${userId}`, {
       method: "PUT",
@@ -66,10 +87,6 @@ function Profile() {
       .then((data) => {
         setProfileData(data);
         setIsEditing(false);
-        setLocation(data.location || "");
-        setAge(data.age || 0);
-        setPhone(data.phone || "");
-        setEmail(data.email || "");
       })
       .catch((error) => console.log(error));
   };
@@ -90,19 +107,40 @@ function Profile() {
           <br />
           <label>
             גיל:
-            <input type="text" value={age} onChange={handleAgeChange} />
+            <input type="number" value={age} onChange={handleAgeChange} />
           </label>
           <br />
           <label>
             טלפון:
-            <input type="text" value={phone} onChange={handlePhoneChange} />
+            <input type="tel" value={phone} onChange={handlePhoneChange} />
           </label>
           <br />
           <label>
             אמייל:
-            <input type="text" value={email} onChange={handleEmailChange} />
+            <input type="email" value={email} onChange={handleEmailChange} />
           </label>
           <br />
+          <input
+            type="checkbox"
+            checked={phonecontact}
+            onChange={handlePhonecontactChange}
+          />
+          <label> by phone </label>
+          <br />
+          <input
+            type="checkbox"
+            checked={emailcontact}
+            onChange={handleEmailcontactChange}
+          />
+          <label> by email </label>
+          <br />
+          <input
+            type="checkbox"
+            checked={webcontact}
+            onChange={handleWebcontactChange}
+          />
+          <label> by website </label>
+
           <button type="submit">Save</button>
           <br />
           <button onClick={handleEditClick}>
@@ -116,7 +154,7 @@ function Profile() {
           <p>גיל: {profileData.age}</p>
           <p>טלפון: {profileData.phone}</p>
           <p>אמייל: {profileData.email}</p>
-          {isEditing ? null : ( // Return null or any other component if you want to hide the button
+          {isEditing ? null : (
             <button onClick={handleEditClick}>
               {isEditing ? "Cancel" : "Edit"}
             </button>

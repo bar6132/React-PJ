@@ -13,7 +13,9 @@ function Signup() {
   const [location, setLocation] = useState("");
   const [age, setAge] = useState("");
   const [phone, setPhone] = useState("");
-
+  const [phonecontact, setPhonecontact] = useState(false);
+  const [emailcontact, setEmailcontact] = useState(false);
+  const [webcontact, setWebcontact] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -35,6 +37,9 @@ function Signup() {
           location,
           age,
           phone,
+          phonecontact,
+          emailcontact,
+          webcontact,
         }),
       });
     
@@ -105,20 +110,36 @@ function Signup() {
         <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </label>
       <br />
-      <div class="checkbox-container">
-        <input type="checkbox" id="phone-checkbox"/>
-        <label for="phone-checkbox">by phone</label>
-      </div>
+      <p style={{color: "blueviolet"}}>contect me by</p>
 
-      <div class="checkbox-container">
-        <input type="checkbox" id="email-checkbox"/>
-        <label for="email-checkbox">by email</label>
-        </div>
+      <div className="checkbox-container">
+  <input
+    type="checkbox"
+    id="phone-checkbox"
+    checked={phonecontact}
+    onChange={(e) => setPhonecontact(e.target.checked)}
+  />
+  <label htmlFor="phone-checkbox">by phone</label>
+</div>
+<div className="checkbox-container">
+  <input
+    type="checkbox"
+    id="email-checkbox"
+    checked={emailcontact}
+    onChange={(e) => setEmailcontact(e.target.checked)}
+  />
+  <label htmlFor="email-checkbox">by email</label>
+</div>
 
-      <div class="checkbox-container">
-        <input type="checkbox" id="website-checkbox"/>
-        <label for="website-checkbox">by website</label>
-        </div>
+<div className="checkbox-container">
+  <input
+    type="checkbox"
+    id="website-checkbox"
+    checked={webcontact}
+    onChange={(e) => setWebcontact(e.target.checked)}
+  />
+  <label htmlFor="website-checkbox">by website</label>
+</div>
       <button type="submit">הרשם</button>
     </form>
     </div>

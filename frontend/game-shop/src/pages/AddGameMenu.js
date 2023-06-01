@@ -1,9 +1,16 @@
 import React from 'react';
 import './AddGameMenu.css';
 import { NavLink } from 'react-router-dom';
+import bk from '../image/addgame.jpg'
 
 function AddGameMenu() {
   return (
+    <div
+      className="hbg"
+      style={{
+        backgroundImage: `url(${bk})`,
+      }}
+    >
     <div className="add-game-menu">
       <h1>Welcome to the Game Library!</h1>
       <p>What would you like to do?</p>
@@ -13,6 +20,7 @@ function AddGameMenu() {
         <NavLink className="button import-game-button" to="/AddOldGame">הוסף משחק ישן</NavLink>
       </div>
     </div>
+  </div>
   );
 }
 

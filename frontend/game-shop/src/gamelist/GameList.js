@@ -51,9 +51,9 @@
 //                   <ListGroup.Item className="game-details-item">
 //                     מחיר : ₪{price}
 //                   </ListGroup.Item>
-//                   <ListGroup.Item className="game-details-item">
-//                     מעלה על ידי : {uploader}
-//                   </ListGroup.Item>
+                  // <ListGroup.Item className="game-details-item">
+                  //   מעלה על ידי : {uploader}
+                  // </ListGroup.Item>
 //                 </ListGroup>
 //                 <Card.Body>
 //                   {uploader === currentUser && ( // check if the uploader matches the current user
@@ -168,9 +168,9 @@
 //                   <ListGroup.Item className="game-details-item">
 //                     מחיר: ₪{price}
 //                   </ListGroup.Item>
-//                   <ListGroup.Item className="game-details-item">
-//                     מעלה על ידי: {uploader}
-//                   </ListGroup.Item>
+                  // <ListGroup.Item className="game-details-item">
+                  //   מעלה על ידי: {uploader}
+                  // </ListGroup.Item>
 //                 </ListGroup>
 //                 <Card.Body>
 //                   {uploader === currentUser && (
@@ -198,7 +198,7 @@
 
 // export default GameList;
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext} from "react";
 import { AppContext } from "../App";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -210,7 +210,9 @@ function GameList() {
   const { storeData } = useContext(AppContext);
   const [gameNameFilter, setGameNameFilter] = useState("");
   const [consoleFilter, setConsoleFilter] = useState("");
-  
+
+
+  console.log(storeData);
   const url = "http://127.0.0.1:8000/api";
   
 
@@ -295,6 +297,10 @@ function GameList() {
                   </ListGroup.Item>
                   <ListGroup.Item className="game-details-item">
                     מחיר: ₪{price}
+                  </ListGroup.Item>
+                  <ListGroup.Item className="game-details-item">
+                    מעלה על ידי : {uploader}
+                    {/* <console.log(uploader) */}
                   </ListGroup.Item>
                 </ListGroup>
                 <Card.Body>

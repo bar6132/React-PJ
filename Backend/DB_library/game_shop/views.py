@@ -73,6 +73,10 @@ def get_user_data(request):
         'location': user_profile.location,
         'age': user_profile.age,
         'phone': user_profile.phone,
+        'phonecontact': user_profile.phonecontact,
+        'emailcontact': user_profile.emailcontact,
+        'webcontact': user_profile.webcontact,
+        
     }
     return Response(response_data)
 
@@ -94,6 +98,18 @@ def get_profile(request, pk):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=400)
+            
+            
+@api_view(['GET'])
+def uploader_data(request, pk):
+    try:
+        profile = UserProfile.objects.get(pk=pk)
+    except UserProfile.DoesNotExist:
+        return Response(status=404)
+    if request.method == 'GET':
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
+	
 
 
 @csrf_exempt
@@ -106,6 +122,9 @@ def signup(request):
     location = request.data.get('location', None)
     age = request.data.get('age', None)
     phone = request.data.get('phone', None)
+    phonecontact = request.data.get('phonecontact', None)
+    emailcontact = request.data.get('emailcontact', None)
+    webcontact = request.data.get('webcontact', None)
 
     if not username or not password:
         return Response({'error': 'Missing required fields'}, status=400)
@@ -132,6 +151,9 @@ def signup(request):
                 "age": age,
                 "phone": phone,
                 "email": email,
+                "phonecontact": phonecontact,
+                "emailcontact": emailcontact,
+                "webcontact": webcontact,
             }
         }
     }
@@ -237,3 +259,9 @@ def inbox(request, pk=None):
         else:
             return Response({'error': 'Message ID (pk) is required for marking as completed.'}, status=400)
 
+
+def groups(request):
+    from channels.layers import get_channel_layer
+    cl = get_channel_layer()
+    groups = cl.groups
+    return Response(groups)

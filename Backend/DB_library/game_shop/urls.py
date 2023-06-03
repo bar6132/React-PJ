@@ -13,6 +13,7 @@ urlpatterns = [
     path('get-all-users', views.manage_users),
     path('manage-users/', views.manage_users),
     path('my_profile/<int:pk>', views.get_profile),
+    path('uploader/<int:pk>', views.uploader_data),
     path('games/', views.games),
     path('games/<int:pk>', views.games),
     path('game/', views.game),

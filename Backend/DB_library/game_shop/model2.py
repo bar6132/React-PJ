@@ -87,3 +87,15 @@ class OldSchool(models.Model):
     def __str__(self):
         return f"{self.console , self.game_name}"
 
+
+
+# class MessageUser(models.Model):
+#     subject = models.CharField(max_length=100)
+#     body = models.CharField(max_length=1000)
+#     email = models.EmailField()
+#     sent_time = models.DateTimeField(default=timezone.now)
+#     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+#     unread_count = models.IntegerField(default=0)
+    
+#     def __str__(self):
+#         return f"Inbox for {self.user.username}"

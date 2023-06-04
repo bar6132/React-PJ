@@ -230,7 +230,7 @@ def game(request, pk=None):
             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST', 'PATCH'])
+@api_view(['GET', 'POST', 'PATCH', 'DELETE'])
 def inbox(request, pk=None):
     if request.method == 'GET':
         if pk is not None:
@@ -266,6 +266,18 @@ def inbox(request, pk=None):
                 return Response({'error': 'Message not found.'}, status=404)
         else:
             return Response({'error': 'Message ID (pk) is required for marking as completed.'}, status=400)
+
+    elif request.method == 'DELETE':
+        if pk is not None:
+            try:
+                note = ContactMsg.objects.get(pk=pk)
+                note.delete()
+                return Response({'message': 'Message deleted successfully.'}, status=200)
+            except ContactMsg.DoesNotExist:
+                return Response({'error': 'Message not found.'}, status=404)
+        else:
+            return Response({'error': 'Message ID (pk) is required for deletion.'}, status=400)
+
 
 
 @api_view(['GET'])

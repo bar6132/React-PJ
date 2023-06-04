@@ -52,3 +52,13 @@ direction: rtl;
 button:focus {
   background-color: red;
 }
+
+.delete-button {
+  background-color: red !important;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: darkred !important; 
+}

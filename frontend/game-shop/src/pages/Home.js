@@ -84,57 +84,57 @@ function Home() {
         )}
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>פרטי קשר</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {profileData.phonecontact && <p>טלפון: {profileData.phone}</p>}
-          {profileData.emailcontact && <p>אימייל: {profileData.email}</p>}
-          {profileData.webcontact && (
-            <div className="contact-container">
-              <h2>שלח הודעה</h2>
-              <form onSubmit={() => {}} className="contact-form">
+            <Modal.Header closeButton>
+              <Modal.Title className="custom-modal-title">פרטי קשר</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="custom-modal">
+              {profileData.phonecontact && <p>טלפון: {profileData.phone}</p>}
+              {profileData.emailcontact && <p>אימייל: {profileData.email}</p>}
+              {profileData.webcontact && (
                 <div>
-                  <label htmlFor="subject">נושא:</label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    // value={subject}
-                    // onChange={(e) => setSubject(e.target.value)}
-                  />
+                  <h2>שלח הודעה</h2>
+                  <form onSubmit={() => {}}>
+                    <div>
+                      <label htmlFor="subject">נושא:</label>
+                      <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        // value={subject}
+                        // onChange={(e) => setSubject(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email">אימייל:</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        // value={email}
+                        // onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="body">תוכן:</label>
+                      <textarea
+                        id="body"
+                        name="body"
+                        // value={body}
+                        // onChange={(e) => setBody(e.target.value)}
+                        maxLength={400}
+                      ></textarea>
+                    </div>
+                    <button type="submit">Send</button>
+                  </form>
                 </div>
-                <div>
-                  <label htmlFor="email">אימייל:</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    // value={email}
-                    // onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="body">תוכן:</label>
-                  <textarea
-                    id="body"
-                    name="body"
-                    // value={body}
-                    // onChange={(e) => setBody(e.target.value)}
-                    maxLength={800}
-                  ></textarea>
-                </div>
-                <button type="submit">Send</button>
-              </form>
-            </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            סגור
-          </Button>
-        </Modal.Footer>
-      </Modal>
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                סגור
+              </Button>
+            </Modal.Footer>
+          </Modal>
     </div>
   );
 }

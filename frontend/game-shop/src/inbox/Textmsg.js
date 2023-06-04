@@ -5,32 +5,8 @@ import { AppContext } from "../App";
 import './TextMsg.css'
 import MsgDetail from "./MsgDetail";
 
-// function MsgDetail({ selectedMsg, onClose, onMarkAsCompleted }) {
-//   console.log("selectedMsg:", selectedMsg);
-//   return (
-//     <div className="modal">
-//       <div className="modal-content">
-//         <span className="close" onClick={onClose}>
-//           &times;
-//         </span>
-//         <h2>{selectedMsg.subject}</h2>
-//         <p>{selectedMsg.body}</p>
-//         {selectedMsg.status !== "completed" ? (
-//           <button
-//             onClick={() => {
-//               onMarkAsCompleted(selectedMsg);
-//               onClose();
-//             }}
-//           >
-//             Mark as Completed
-//           </button>
-//         ) : null}
-//       </div>
-//     </div>
-//   );
-// }
 
-function MessageTable({ msgs, handleMsgClick }) {
+function MessageTable({ msgs, handleMsgClick, handleDelete }) {
   return (
     <table>
       <thead>
@@ -40,16 +16,20 @@ function MessageTable({ msgs, handleMsgClick }) {
           <th>מייל</th>
           <th>סטטוס</th>
           <th>תאריך שליחה</th>
+          <th>פעולות</th>
         </tr>
       </thead>
       <tbody>
         {msgs.map((msg) => (
-          <tr key={msg.id} onClick={() => handleMsgClick(msg)}>
-            <td>{msg.subject}</td>
-            <td>{msg.body}</td>
-            <td>{msg.email}</td>
-            <td>{msg.status}</td>
-            <td>{new Date(msg.sent_time).toLocaleString()}</td>
+          <tr key={msg.id}>
+            <td onClick={() => handleMsgClick(msg)}>{msg.subject}</td>
+            <td onClick={() => handleMsgClick(msg)}>{msg.body}</td>
+            <td onClick={() => handleMsgClick(msg)}>{msg.email}</td>
+            <td onClick={() => handleMsgClick(msg)}>{msg.status}</td>
+            <td onClick={() => handleMsgClick(msg)}>{new Date(msg.sent_time).toLocaleString()}</td>
+            <td>
+              <button className="delete-button" onClick={() => handleDelete(msg.id)}>מחק</button>
+            </td>
           </tr>
         ))}
       </tbody>
@@ -59,8 +39,8 @@ function MessageTable({ msgs, handleMsgClick }) {
 
 function Textmsg() {
   const [msgs, setMsgs] = useState([]);
-  const [selectedMsg, setSelectedMsg] = useState(null); // Set initial value as null
-  const [filter, setFilter] = useState("הכל"); // Set initial filter value in Hebrew
+  const [selectedMsg, setSelectedMsg] = useState(null);
+  const [filter, setFilter] = useState("הכל"); 
   const { url } = useContext(AppContext);
 
   const fetchMsgs = useCallback(async () => {
@@ -82,23 +62,27 @@ function Textmsg() {
     הכל: (msgs) => msgs,
   };
 
-  
   const handleMsgClick = (msg) => {
     setSelectedMsg(msg);
   };
 
   const handleCloseModal = () => {
-    setSelectedMsg(null); // Set selectedMsg as null
+    setSelectedMsg(null); 
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${url}inbox/${id}`);
+      fetchMsgs(); 
+    } catch (error) {
+      console.error('Error deleting message:', error);
+    }
   };
 
   const markAsCompleted = async (msg) => {
     try {
       await axios.patch(`${url}inbox/${msg.id}`, { status: "completed" });
-
-      // Update the status of the selected message
       setSelectedMsg({ ...selectedMsg, status: "completed" });
-
-      // Update the status of the corresponding message in the msgs array
       const updatedMsgs = msgs.map((m) =>
         m.id === msg.id ? { ...m, status: "completed" } : m
       );
@@ -121,6 +105,7 @@ function Textmsg() {
       <MessageTable
         msgs={filterMap[filter](msgs)}
         handleMsgClick={handleMsgClick}
+        handleDelete={handleDelete}
       />
 
       {selectedMsg && (

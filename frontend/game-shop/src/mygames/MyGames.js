@@ -229,9 +229,7 @@ function MyGames() {
                   <ListGroup.Item className="game-details-item">
                     מחיר: ₪{price}
                   </ListGroup.Item>
-                  <ListGroup.Item className="game-details-item">
-                    מעלה על ידי: {uploader}
-                  </ListGroup.Item>
+            
                 </ListGroup>
                 <Card.Body>
                   <Button

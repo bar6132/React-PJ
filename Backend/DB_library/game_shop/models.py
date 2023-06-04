@@ -17,6 +17,10 @@ class UserProfile(models.Model):
     )
     email = models.EmailField(null=False)
     user = models.OneToOneField(null=True, to=User, on_delete=models.CASCADE)
+    phonecontact = models.BooleanField(null=True,blank=True, default=False)
+    emailcontact = models.BooleanField(null=True, default=False, blank=True)
+    webcontact = models.BooleanField(null=True, default=False, blank=True)
+    
 
     class Meta:
         db_table = "User Profile"
@@ -51,7 +55,7 @@ class Game(models.Model):
         db_table = "Games"
 
     def __str__(self):
-        return f"{self.game_type} - {self.console} - {self.game_name}"
+        return f"{self.game_type} - {self.console} - {self.game_name} (Uploader: 		{self.uploader.user.username} - {self.uploader.location})"
 
 
 class ContactMsg(models.Model):
@@ -68,3 +72,5 @@ class ContactMsg(models.Model):
 
     def __str__(self):
         return f"{self.sent_time} - {self.subject} - {self.email}"
+
+

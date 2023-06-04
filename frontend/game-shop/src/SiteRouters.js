@@ -15,6 +15,7 @@ import ContactUs from './contactus/ContactUS';
 import UserList from './userlist/UserList';
 import Textmsg from './inbox/Textmsg';
 import SideBar from './components/SideBar';
+import PrivteBox from './privtebox/PrivteBox';
 
 
 
@@ -36,6 +37,8 @@ function SiteRouters() {
           <Route path='/ContactUs' element={<ContactUs/>}/>
           <Route path='/UserList' element={<UserList/>}/>
           <Route path='/Inbox' element={<Textmsg/>}/>
+          <Route path='/PrivteBox' element={<PrivteBox/>}/>
+          
         </Routes>
       </>);
   }

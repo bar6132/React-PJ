@@ -25,10 +25,9 @@
 //   }
 
 //   return (
-//     <> 
+//     <>
 //     <SideBar />
 //       <div className="game-list">
-       
 
 //         {storeData.map(
 //           ({ id, console, game_name, price, game_img, uploader }) => (
@@ -51,9 +50,9 @@
 //                   <ListGroup.Item className="game-details-item">
 //                     מחיר : ₪{price}
 //                   </ListGroup.Item>
-                  // <ListGroup.Item className="game-details-item">
-                  //   מעלה על ידי : {uploader}
-                  // </ListGroup.Item>
+// <ListGroup.Item className="game-details-item">
+//   מעלה על ידי : {uploader}
+// </ListGroup.Item>
 //                 </ListGroup>
 //                 <Card.Body>
 //                   {uploader === currentUser && ( // check if the uploader matches the current user
@@ -80,7 +79,6 @@
 // }
 
 // export default GameList;
-
 
 // import React, { useState, useContext } from "react";
 // import { AppContext } from "../App";
@@ -134,7 +132,7 @@
 //           />
 //           <br/>
 //           <br/>
-//           <select 
+//           <select
 //             value={consoleFilter}
 //             onChange={(e) => setConsoleFilter(e.target.value)}
 //           >
@@ -168,9 +166,9 @@
 //                   <ListGroup.Item className="game-details-item">
 //                     מחיר: ₪{price}
 //                   </ListGroup.Item>
-                  // <ListGroup.Item className="game-details-item">
-                  //   מעלה על ידי: {uploader}
-                  // </ListGroup.Item>
+// <ListGroup.Item className="game-details-item">
+//   מעלה על ידי: {uploader}
+// </ListGroup.Item>
 //                 </ListGroup>
 //                 <Card.Body>
 //                   {uploader === currentUser && (
@@ -198,12 +196,11 @@
 
 // export default GameList;
 
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { AppContext } from "../App";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import nopic from "../image/no-pic.jpg";
-import background from "../image/home.jpg";
 import "./GameList.css";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -215,8 +212,6 @@ function GameList() {
   const [consoleFilter, setConsoleFilter] = useState("");
   const [profileData, setProfileData] = useState({});
   const [showModal, setShowModal] = useState(false);
-
-
     const getUploader = (uploader) => {
     fetch(`${url}/uploader/${uploader}`)
       .then((response) => response.json())
@@ -233,12 +228,11 @@ function GameList() {
   };
   console.log(storeData);
   const url = "http://127.0.0.1:8000/api";
-  
 
   if (storeData === null || storeData === undefined) {
     return <p>Loading data...</p>;
   }
-  
+
   const filteredData = storeData.filter((game) => {
     const gameNameMatch =
       game.game_name.toLowerCase().includes(gameNameFilter.toLowerCase()) ||
@@ -248,54 +242,49 @@ function GameList() {
       consoleFilter === "";
     return gameNameMatch && consoleMatch;
   });
-  
+
   let consoles = [...new Set(storeData.map((game) => game.console))];
-  consoles.sort(); // Sort the consoles alphabetically
-  
+  consoles.sort();
+
   const handleConsoleButtonClick = (console) => {
     setConsoleFilter(console);
   };
-  
+
   return (
     <>
-      <div className="game-list">
-        <div className="filter-section">
-          <h2 className="headre">חפש</h2>
+      <div className="filter-section">
+        <div className="search-bar">
+          <h2 className="header">חפש</h2>
           <input
             type="text"
             placeholder="סינון משחק לפי שם"
             value={gameNameFilter}
             onChange={(e) => setGameNameFilter(e.target.value)}
           />
-          <br />
-          <br />
-          <div
-      className="gli"
-      style={{
-        backgroundImage: `url(${background})`,
-      }}
-    >
-          <div className="console-buttons">
-            <button
-              className={`console-button ${consoleFilter === "" ? "active" : ""}`}
-              onClick={() => setConsoleFilter("")}
-            >
-              All Consoles
-            </button>
-            {consoles.map((console) => (
-              <div key={console} className="console-button-wrapper">
-                <button
-                  className={`console-button ${consoleFilter === console ? "active" : ""}`}
-                  onClick={() => handleConsoleButtonClick(console)}
-                >
-                  {console}
-                </button>
-              </div>
-            ))}
-          </div>
-          </div>
         </div>
-  
+        <div className="console-buttons">
+          <button
+            className={`console-button ${consoleFilter === "" ? "active" : ""}`}
+            onClick={() => setConsoleFilter("")}
+          >
+            All Consoles
+          </button>
+          {consoles.map((console) => (
+            <div key={console} className="console-button-wrapper">
+              <button
+                className={`console-button ${
+                  consoleFilter === console ? "active" : ""
+                }`}
+                onClick={() => handleConsoleButtonClick(console)}
+              >
+                {console}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="game-list">
         {filteredData.map(
           ({ id, console, game_name, price, game_img, uploader }) => (
             <div key={id} className="game-card">
@@ -390,4 +379,3 @@ function GameList() {
 }
 
 export default GameList;
-

@@ -40,6 +40,6 @@ form {
   
 
   .checkbox-container {
-    display: inline-block;
     margin-right: 10px;
+    position: relative;
   }

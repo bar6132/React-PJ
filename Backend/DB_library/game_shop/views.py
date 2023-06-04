@@ -5,7 +5,7 @@ from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from .models import Game, UserProfile, ContactMsg
-from .serializers import GameSerializer, UserProfileSerializer, ContactMsgSerializer
+from .serializers import GameSerializer, UserProfileSerializer, ContactMsgSerializer, MessageSerializer, UserSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
 
@@ -109,7 +109,15 @@ def uploader_data(request, pk):
     if request.method == 'GET':
         serializer = UserProfileSerializer(profile)
         return Response(serializer.data)
-	
+
+@csrf_exempt
+@api_view(['GET'])
+def get_user(request, pk):
+    profile = User.objects.get(pk=pk)
+    if request.method == 'GET':
+        serializer = UserSerializer(profile)
+        print(serializer.data)
+        return Response(serializer.data)
 
 
 @csrf_exempt
@@ -260,8 +268,19 @@ def inbox(request, pk=None):
             return Response({'error': 'Message ID (pk) is required for marking as completed.'}, status=400)
 
 
-def groups(request):
-    from channels.layers import get_channel_layer
-    cl = get_channel_layer()
-    groups = cl.groups
-    return Response(groups)
+@api_view(['GET'])
+def user_inbox(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+        messages = user.received_messages.all()
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data)
+    except User.DoesNotExist:
+        return Response({'error': 'User does not exist'}, status=404)
+
+
+# def groups(request):
+#     from channels.layers import get_channel_layer
+#     cl = get_channel_layer()
+#     groups = cl.groups
+#     return Response(groups)

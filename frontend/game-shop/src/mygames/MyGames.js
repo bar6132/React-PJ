@@ -15,14 +15,12 @@ function EditGameForm({ gameData, onHide }) {
   const handleInputChange = (event) => {
     const { name, type, value, files } = event.target;
     if (type === "file") {
-      // Only handle file input fields
-      const [file] = files; // Get the first file from the fileList
+      const [file] = files;
       setFormData((prevFormData) => ({
         ...prevFormData,
-        [name]: file instanceof File ? file : prevFormData[name], // Use the previous file value if `file` is not an instance of File
+        [name]: file instanceof File ? file : prevFormData[name],
       }));
     } else {
-      // Handle other input fields
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: value,
@@ -30,11 +28,29 @@ function EditGameForm({ gameData, onHide }) {
     }
   };
 
+  const handleDelete = (id) => {
+    axios({
+      method: "delete",
+      url: `${url}/game/${id}`,
+      headers: {
+        Authorization: `Token ${token}`,
+        "content-type": "multipart/form-data",
+      },
+    })
+      .then((response) => {
+        console.log("Game deleted successfully:", response.data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error deleting game:", error);
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     axios({
       method: "put",
-      url: `${url}game/${formData.id}`,
+      url: `${url}/game/${formData.id}`,
       data: formData,
       headers: {
         Authorization: `Token ${token}`,
@@ -42,32 +58,14 @@ function EditGameForm({ gameData, onHide }) {
       },
     })
       .then(() => {
-        alert("המשחק התעדכן בהצלחה");
-        onHide(); // Call the `onHide` prop to close the modal
+        alert("המשחק עודכן בהצלחה");
+        onHide();
       })
       .catch((error) => {
         console.error("Error updating game:", error);
       });
 
     console.log("Submitted form data:", formData);
-  };
-
-  const handleDelete = () => {
-    axios({
-      method: "delete",
-      url: `${url}game/${formData.id}`,
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    })
-      .then(() => {
-        alert("המשחק נמחק בהצלחה");
-        onHide(); // Call the `onHide` prop to close the modal
-      })
-      .catch((error) => {
-        console.error("Error deleting game:", error);
-      });
-      onHide();
   };
 
   return (
@@ -153,7 +151,7 @@ function EditGameForm({ gameData, onHide }) {
               onChange={handleInputChange}
             />
           </div>
-          <Button variant="danger" onClick={handleDelete}>
+          <Button variant="danger" onClick={() => handleDelete(formData.id)}>
             Delete Game
           </Button>{" "}
           {/* Use variant="danger" to indicate it's a delete action */}
@@ -166,6 +164,17 @@ function EditGameForm({ gameData, onHide }) {
           </Button>
         </Form>
       </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>
+          בטל
+        </Button>
+        <Button variant="primary" type="submit" onClick={handleSubmit}>
+          שמור שינויים
+        </Button>
+        <Button variant="danger" onClick={() => handleDelete(formData.id)}>
+          מחק
+        </Button>
+      </Modal.Footer>
     </>
   );
 }

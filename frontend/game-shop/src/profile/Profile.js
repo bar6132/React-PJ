@@ -126,14 +126,12 @@ function Profile() {
             onChange={handlePhonecontactChange}
           />
           <label> by phone </label>
-          <br />
           <input
             type="checkbox"
             checked={emailcontact}
             onChange={handleEmailcontactChange}
           />
           <label> by email </label>
-          <br />
           <input
             type="checkbox"
             checked={webcontact}

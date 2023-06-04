@@ -12,7 +12,6 @@ import { Button } from "react-bootstrap";
 function Home() {
   const { storeData } = useContext(AppContext);
   const [profileData, setProfileData] = useState({});
-  const [selectedUploader, setSelectedUploader] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const getUploader = (uploader) => {
@@ -21,7 +20,6 @@ function Home() {
       .then((data) => {
         setProfileData(data);
         setShowModal(true);
-
         console.log(profileData);
       })
       .catch((error) => console.log(error));
@@ -71,16 +69,13 @@ function Home() {
                     <ListGroup.Item className="game-details-item">
                       מחיר: ₪{price}
                     </ListGroup.Item>
-                    <ListGroup.Item className="game-details-item">
-                      מעלה על ידי: {uploader}
-                    </ListGroup.Item>
                   </ListGroup>
 
                   <Button
                     className="game-contact-link"
-                    onClick={() => setSelectedUploader(uploader)}
+                    onClick={() => getUploader(uploader)}
                   >
-                    פרטי קשר: {selectedUploader ===  uploader ? profileData.location : "לחץ להצגת פרטי הקשר"}
+                    פרטי קשר
                   </Button>
                 </Card>
               </div>
@@ -93,8 +88,46 @@ function Home() {
           <Modal.Title>פרטי קשר</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>מיקום: {profileData.location}</p>
-          {/* Add additional profile data here */}
+          {profileData.phonecontact && <p>טלפון: {profileData.phone}</p>}
+          {profileData.emailcontact && <p>אימייל: {profileData.email}</p>}
+          {profileData.webcontact && (
+            <div className="contact-container">
+              <h2>שלח הודעה</h2>
+              <form onSubmit={() => {}} className="contact-form">
+                <div>
+                  <label htmlFor="subject">נושא:</label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    // value={subject}
+                    // onChange={(e) => setSubject(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email">אימייל:</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    // value={email}
+                    // onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="body">תוכן:</label>
+                  <textarea
+                    id="body"
+                    name="body"
+                    // value={body}
+                    // onChange={(e) => setBody(e.target.value)}
+                    maxLength={800}
+                  ></textarea>
+                </div>
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

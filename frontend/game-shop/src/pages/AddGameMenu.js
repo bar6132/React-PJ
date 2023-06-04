@@ -1,12 +1,12 @@
 import React from 'react';
 import './AddGameMenu.css';
 import { NavLink } from 'react-router-dom';
-import bk from '../image/addgame2.jpg'
+import bk from '../image/addgame3.jpg'
 
 function AddGameMenu() {
   return (
     <div
-      className="hbg"
+      className="add-game-img"
       style={{
         backgroundImage: `url(${bk})`,
       }}

@@ -2,7 +2,7 @@ import "./ContactUs.css";
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AppContext } from "../App";
-import background from '../image/צורקשר.jpg'
+import background from '../image/con.webp'
 
 
 function ContactUs() {
@@ -27,7 +27,7 @@ function ContactUs() {
   };
 
   return (
-    <div className=""
+    <div className="pic"
     style={{
       backgroundImage: `url(${background})`,
     }}

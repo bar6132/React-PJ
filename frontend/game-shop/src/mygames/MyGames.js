@@ -7,10 +7,10 @@ import "./MyGames.css";
 import { Button, Form, Modal } from "react-bootstrap";
 import axios from "axios";
 
-function EditGameForm({ gameData, onHide, gameId }) {
-  const [formData, setFormData] = useState(gameData);
+function EditGameForm({ gameData, onHide }) {
   const { url } = useContext(AppContext);
   const token = window.localStorage.getItem("token");
+  const [formData, setFormData] = useState(gameData);
 
   const handleInputChange = (event) => {
     const { name, type, value, files } = event.target;
@@ -34,22 +34,40 @@ function EditGameForm({ gameData, onHide, gameId }) {
     event.preventDefault();
     axios({
       method: "put",
-      url: `${url}game/${formData.id}`, // Pass the `gameId` variable as parameter
+      url: `${url}game/${formData.id}`,
       data: formData,
       headers: {
         Authorization: `Token ${token}`,
-        "content-type": "multipart/form-data",
+        "Content-Type": "multipart/form-data",
       },
     })
       .then(() => {
         alert("המשחק התעדכן בהצלחה");
+        onHide(); // Call the `onHide` prop to close the modal
       })
       .catch((error) => {
-        console.error("Error adding game:", error);
+        console.error("Error updating game:", error);
       });
 
     console.log("Submitted form data:", formData);
-    onHide(); // Call the `onHide` prop to close the modal
+  };
+
+  const handleDelete = () => {
+    axios({
+      method: "delete",
+      url: `${url}game/${formData.id}`,
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then(() => {
+        alert("המשחק נמחק בהצלחה");
+        onHide(); // Call the `onHide` prop to close the modal
+      })
+      .catch((error) => {
+        console.error("Error deleting game:", error);
+      });
+      onHide();
   };
 
   return (
@@ -90,7 +108,7 @@ function EditGameForm({ gameData, onHide, gameId }) {
                 <option value="PS ONE">PS ONE</option>
                 <option value="Wii">Wii</option>
                 <option value="PSP">PSP</option>
-                <option value="Game Boye">Game Boye</option>
+                <option value="Game Boy">Game Boy</option>
                 <option value="Atari">Atari</option>
                 <option value="Nintendo DS">Nintendo DS</option>
                 <option value="Xbox Original">Xbox Original</option>
@@ -135,16 +153,19 @@ function EditGameForm({ gameData, onHide, gameId }) {
               onChange={handleInputChange}
             />
           </div>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete Game
+          </Button>{" "}
+          {/* Use variant="danger" to indicate it's a delete action */}
+          <Button variant="secondary" onClick={onHide}>
+            Cancel
+          </Button>{" "}
+          {/* Move the Cancel button before the Save Changes button */}
+          <Button variant="primary" type="submit">
+            Save Changes
+          </Button>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Cancel
-        </Button>
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
     </>
   );
 }
@@ -170,51 +191,50 @@ function MyGames() {
   };
 
   // Add a null/undefined check before calling map()
-  if (storeData === null || storeData === undefined) {
+  if (!storeData || storeData.length === 0) {
     return <p>עדיין לא הוספת משחקים</p>;
   }
 
   return (
     <>
       <div className="game-list">
-        {storeData.map(
-          ({ id, console, game_name, price, game_img, uploader }) =>
-            uploader === currentUser && (
-              <div key={id} className="game-card">
-                <Card>
-                  {game_img ? (
-                    <Card.Img variant="top" src={`${url}${game_img}`} />
-                  ) : (
-                    <Card.Img variant="top" src={nopic} /> // display the no-pic image if game_img is null or empty
-                  )}
-                  <Card.Body>
-                    <Card.Title className="game-card-title">
-                      {game_name}
-                    </Card.Title>
-                  </Card.Body>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item className="game-details-item">
-                      קונסולה: {console}
-                    </ListGroup.Item>
-                    <ListGroup.Item className="game-details-item">
-                      מחיר: ₪{price}
-                    </ListGroup.Item>
-                    <ListGroup.Item className="game-details-item">
-                      מעלה על ידי: {uploader}
-                    </ListGroup.Item>
-                  </ListGroup>
-                  <Card.Body>
-                    <Button
-                      className="game-edit-link"
-                      onClick={() => handleEditClick(id)}
-                    >
-                      ערוך
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </div>
-            )
-        )}
+        {storeData
+          .filter((game) => game.uploader === currentUser)
+          .map(({ id, console, game_name, price, game_img, uploader }) => (
+            <div key={id} className="game-card">
+              <Card>
+                {game_img ? (
+                  <Card.Img variant="top" src={`${url}${game_img}`} />
+                ) : (
+                  <Card.Img variant="top" src={nopic} />
+                )}
+                <Card.Body>
+                  <Card.Title className="game-card-title">
+                    {game_name}
+                  </Card.Title>
+                </Card.Body>
+                <ListGroup className="list-group-flush">
+                  <ListGroup.Item className="game-details-item">
+                    קונסולה: {console}
+                  </ListGroup.Item>
+                  <ListGroup.Item className="game-details-item">
+                    מחיר: ₪{price}
+                  </ListGroup.Item>
+                  <ListGroup.Item className="game-details-item">
+                    מעלה על ידי: {uploader}
+                  </ListGroup.Item>
+                </ListGroup>
+                <Card.Body>
+                  <Button
+                    className="game-edit-link"
+                    onClick={() => handleEditClick(id)}
+                  >
+                    ערוך
+                  </Button>{" "}
+                </Card.Body>
+              </Card>
+            </div>
+          ))}
       </div>
 
       <Modal show={showEditModal} onHide={handleModalHide}>

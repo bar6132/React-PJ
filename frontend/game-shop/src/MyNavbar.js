@@ -42,6 +42,9 @@ function MyNavbar() {
           <NavDropdown.Item style={{ direction: "rtl", textAlign: "center" }}>
             <NavLink to="/AddGameMenu"> הוסף משחק</NavLink>
           </NavDropdown.Item>
+          <NavDropdown.Item style={{ direction: "rtl", textAlign: "center" }}>
+            <NavLink to="/PrivteBox">הודעות</NavLink>
+          </NavDropdown.Item>
 
           {isSuperUser ? (
             <div>

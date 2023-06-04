@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Game, UserProfile, User, ContactMsg
+from .models import Game, UserProfile, User, ContactMsg, Message
 
 
 class ContactMsgSerializer(serializers.ModelSerializer):
@@ -30,3 +30,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = '__all__'
 
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'

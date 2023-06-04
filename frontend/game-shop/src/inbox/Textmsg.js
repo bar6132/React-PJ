@@ -60,7 +60,7 @@ function MessageTable({ msgs, handleMsgClick }) {
 function Textmsg() {
   const [msgs, setMsgs] = useState([]);
   const [selectedMsg, setSelectedMsg] = useState(null); // Set initial value as null
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("הכל"); // Set initial filter value in Hebrew
   const { url } = useContext(AppContext);
 
   const fetchMsgs = useCallback(async () => {
@@ -77,11 +77,12 @@ function Textmsg() {
   }, [fetchMsgs]);
 
   const filterMap = {
-    completed: (msgs) => msgs.filter((msg) => msg.status === "completed"),
-    in_progress: (msgs) => msgs.filter((msg) => msg.status === "in_progress"),
-    all: (msgs) => msgs,
+    הושלם: (msgs) => msgs.filter((msg) => msg.status === "completed"),
+    בתהליך: (msgs) => msgs.filter((msg) => msg.status === "in_progress"),
+    הכל: (msgs) => msgs,
   };
 
+  
   const handleMsgClick = (msg) => {
     setSelectedMsg(msg);
   };

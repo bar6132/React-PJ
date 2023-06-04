@@ -15,14 +15,12 @@ function EditGameForm({ gameData, onHide, gameId }) {
   const handleInputChange = (event) => {
     const { name, type, value, files } = event.target;
     if (type === "file") {
-      // Only handle file input fields
-      const [file] = files; // Get the first file from the fileList
+      const [file] = files; 
       setFormData((prevFormData) => ({
         ...prevFormData,
-        [name]: file instanceof File ? file : prevFormData[name], // Use the previous file value if `file` is not an instance of File
+        [name]: file instanceof File ? file : prevFormData[name], 
       }));
     } else {
-      // Handle other input fields
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: value,
@@ -30,11 +28,30 @@ function EditGameForm({ gameData, onHide, gameId }) {
     }
   };
 
+  const handleDelete = (id) => {
+    axios({
+      method: "delete",
+      url: `${url}game/${id}`,
+      headers: {
+        Authorization: `Token ${token}`,
+        "content-type": "multipart/form-data",
+      },
+    })
+      .then((response) => {
+        console.log("Game deleted successfully:", response.data);
+        window.location.reload();
+
+      })
+      .catch((error) => {
+        console.error("Error deleting game:", error);
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     axios({
       method: "put",
-      url: `${url}game/${formData.id}`, // Pass the `gameId` variable as parameter
+      url: `${url}game/${formData.id}`, 
       data: formData,
       headers: {
         Authorization: `Token ${token}`,
@@ -49,7 +66,7 @@ function EditGameForm({ gameData, onHide, gameId }) {
       });
 
     console.log("Submitted form data:", formData);
-    onHide(); // Call the `onHide` prop to close the modal
+    onHide(); 
   };
 
   return (
@@ -139,10 +156,13 @@ function EditGameForm({ gameData, onHide, gameId }) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
-          Cancel
+          בטל
         </Button>
         <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Save Changes
+          שמור שינויים
+        </Button>
+        <Button variant="danger" onClick={() => handleDelete(gameData.id)}>
+          מחק
         </Button>
       </Modal.Footer>
     </>

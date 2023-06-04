@@ -2,7 +2,6 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
   }
   .filter-section {
     display: flex;
@@ -70,4 +69,54 @@
     text-decoration: underline;
   }
 
+  .custom-modal {
+    font-family: Arial, sans-serif;
+    max-width: 400px;
+    direction: rtl;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+  }
+
+  .custom-modal-title {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-left: 160px;
+  }
   
+  .custom-modal h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }
+  
+  .custom-modal label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .custom-modal input,
+  .custom-modal textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .custom-modal button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .custom-modal button:hover {
+    background-color: #0056b3;
+  }
+  
+
+ 

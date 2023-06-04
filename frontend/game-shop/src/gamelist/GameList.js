@@ -205,14 +205,13 @@ import "./GameList.css";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
-
 function GameList() {
   const { storeData } = useContext(AppContext);
   const [gameNameFilter, setGameNameFilter] = useState("");
   const [consoleFilter, setConsoleFilter] = useState("");
   const [profileData, setProfileData] = useState({});
   const [showModal, setShowModal] = useState(false);
-    const getUploader = (uploader) => {
+  const getUploader = (uploader) => {
     fetch(`${url}/uploader/${uploader}`)
       .then((response) => response.json())
       .then((data) => {
@@ -226,7 +225,6 @@ function GameList() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-  console.log(storeData);
   const url = "http://127.0.0.1:8000/api";
 
   if (storeData === null || storeData === undefined) {
@@ -323,57 +321,61 @@ function GameList() {
             </div>
           )
         )}
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>פרטי קשר</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {profileData.phonecontact && <p>טלפון: {profileData.phone}</p>}
-          {profileData.emailcontact && <p>אימייל: {profileData.email}</p>}
-          {profileData.webcontact && <div  className="contact-container">
-      <h2>שלח הודעה</h2>
-      <form onSubmit={()=>{}} className="contact-form">
-        <div>
-          <label htmlFor="subject">נושא:</label>
-          <input
-            type="text"
-            id="subject"
-            name="subject" 
-            // value={subject}
-            // onChange={(e) => setSubject(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">אימייל:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            // value={email}
-            // onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="body">תוכן:</label>
-          <textarea
-            id="body"
-            name="body"
-            // value={body}
-            // onChange={(e) => setBody(e.target.value)}
-            maxLength={800} 
-          ></textarea>
-        </div>
-        <button type="submit">Send</button>
-      </form>
-    </div>}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            סגור
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+        
+          <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title className="custom-modal-title">פרטי קשר</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="custom-modal">
+              {profileData.phonecontact && <p>טלפון: {profileData.phone}</p>}
+              {profileData.emailcontact && <p>אימייל: {profileData.email}</p>}
+              {profileData.webcontact && (
+                <div>
+                  <h2>שלח הודעה</h2>
+                  <form onSubmit={() => {}}>
+                    <div>
+                      <label htmlFor="subject">נושא:</label>
+                      <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        // value={subject}
+                        // onChange={(e) => setSubject(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email">אימייל:</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        // value={email}
+                        // onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="body">תוכן:</label>
+                      <textarea
+                        id="body"
+                        name="body"
+                        // value={body}
+                        // onChange={(e) => setBody(e.target.value)}
+                        maxLength={400}
+                      ></textarea>
+                    </div>
+                    <button type="submit">Send</button>
+                  </form>
+                </div>
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                סגור
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        
+      </div>
     </>
   );
 }

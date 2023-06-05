@@ -61,6 +61,7 @@ function EditGameForm({ gameData, onHide }) {
       .then(() => {
         alert("המשחק עודכן בהצלחה");
         onHide();
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error updating game:", error);
@@ -152,17 +153,6 @@ function EditGameForm({ gameData, onHide }) {
               onChange={handleInputChange}
             />
           </div>
-          <Button variant="danger" onClick={() => handleDelete(formData.id)}>
-            Delete Game
-          </Button>{" "}
-          {/* Use variant="danger" to indicate it's a delete action */}
-          <Button variant="secondary" onClick={onHide}>
-            Cancel
-          </Button>{" "}
-          {/* Move the Cancel button before the Save Changes button */}
-          <Button variant="primary" type="submit">
-            Save Changes
-          </Button>
         </Form>
       </Modal.Body>
       <Modal.Footer>

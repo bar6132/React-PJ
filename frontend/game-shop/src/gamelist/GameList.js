@@ -331,6 +331,7 @@ function GameList() {
               <Modal.Title className="custom-modal-title">פרטי קשר</Modal.Title>
             </Modal.Header>
             <Modal.Body className="custom-modal">
+              <p> מיקום: {profileData.location}</p>
               {profileData.phonecontact && <p>טלפון: {profileData.phone}</p>}
               {profileData.emailcontact && <p>אימייל: {profileData.email}</p>}
               {profileData.webcontact && (

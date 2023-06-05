@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './UserList.css';
-import { useContext } from 'react';
-import { AppContext } from '../App';
+import { url } from '../client/config'
+import { fetchUsers } from "../client/Client";
+
+
 
 function UserList() {
   const [users, setUsers] = useState([]);
-  const { url } = useContext(AppContext);
-
 
   useEffect(() => {
-    fetchUsers();
+    const getUsers = async () => {
+      try {
+        const fetchedUsers = await fetchUsers();
+        setUsers(fetchedUsers);
+        console.log(fetchedUsers);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    getUsers();
   }, []);
 
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get(`${url}get-all-users`);
-      setUsers(response.data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
-  };
-  
+
   const handleEditSuperuser = async (userId, isSuperuser) => {
     try {
       const response = await axios.patch(`${url}manage-users/`, {
@@ -29,12 +31,13 @@ function UserList() {
         is_superuser: !isSuperuser,
       });
       if (response.status === 200) {
-        fetchUsers(); // Refresh the user data after editing
+        fetchUsers(); 
       }
     } catch (error) {
       console.error('Error editing superuser status:', error);
     }
   };
+  
   const handleDeleteUser = async (userId) => {
     try {
       const response = await axios.delete(`${url}manage-users/`, {

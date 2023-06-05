@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from '../App';
+import React, {  useState } from 'react';
 import axios from 'axios';
 import './AddOldGame.css'
 import background from '../image/old-video-game.jpg'
+import { url } from '../client/config'
+
 
 function AddOldGame() {
-  const { url } = useContext(AppContext);
   const [console, setConsole] = useState('');
   const [gameName, setGameName] = useState('');
   const [price, setPrice] = useState('');
@@ -31,7 +31,7 @@ function AddOldGame() {
     // Send a POST request to the API endpoint
    axios({
       method: 'post',
-      url: `${url}game/`,
+      url: `${url}/game/`,
       data: formData,
       headers: {
         Authorization: `Token ${token}`,

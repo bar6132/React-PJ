@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AppContext } from "../App";
 import './TextMsg.css'
 import MsgDetail from "./MsgDetail";
+import { url } from '../client/config';
 
 
 function MessageTable({ msgs, handleMsgClick, handleDelete }) {
@@ -41,20 +42,22 @@ function Textmsg() {
   const [msgs, setMsgs] = useState([]);
   const [selectedMsg, setSelectedMsg] = useState(null);
   const [filter, setFilter] = useState("הכל"); 
-  const { url } = useContext(AppContext);
+  
 
   const fetchMsgs = useCallback(async () => {
     try {
-      const response = await axios.get(`${url}inbox/`);
+      const response = await axios.get(`${url}/inbox/`);
       setMsgs(response.data);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
   }, [url]);
 
+
   useEffect(() => {
     fetchMsgs();
   }, [fetchMsgs]);
+
 
   const filterMap = {
     הושלם: (msgs) => msgs.filter((msg) => msg.status === "completed"),
@@ -72,7 +75,7 @@ function Textmsg() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${url}inbox/${id}`);
+      await axios.delete(`${url}/inbox/${id}`);
       fetchMsgs(); 
     } catch (error) {
       console.error('Error deleting message:', error);

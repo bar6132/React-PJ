@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../App";
+import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import background from '../image/form1.jpg'
+import { url } from '../client/config'
+
 
 function Profile() {
-  const { url } = useContext(AppContext);
   const [profileData, setProfileData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [location, setLocation] = useState("");
@@ -18,7 +18,7 @@ function Profile() {
   const userId = JSON.parse(UserProfile).id;
 
   useEffect(() => {
-    fetch(`${url}my_profile/${userId}`)
+    fetch(`${url}/my_profile/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         setProfileData(data);
@@ -76,7 +76,7 @@ function Profile() {
       emailcontact: emailcontact,
       webcontact: webcontact ,
     };
-    fetch(`${url}my_profile/${userId}`, {
+    fetch(`${url}/my_profile/${userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

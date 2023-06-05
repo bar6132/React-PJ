@@ -1,12 +1,12 @@
 import "./ContactUs.css";
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import axios from "axios";
-import { AppContext } from "../App";
+import { url } from '../client/config'
+
 // import background from '../image/con.webp'
 
 
 function ContactUs() {
-  const { url } = useContext(AppContext);
   const [subject, setSubject] = useState("");
   const [email, setEmail] = useState("");
   const [body, setBody] = useState('');
@@ -15,7 +15,7 @@ function ContactUs() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${url}inbox/`, { subject, email, body });
+      const response = await axios.post(`${url}/inbox/`, { subject, email, body });
       console.log("Message sent successfully:", response.data);
       // Reset the form fields after successful submission
       setSubject("");

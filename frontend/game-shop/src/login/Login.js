@@ -1,15 +1,15 @@
 import { useContext, useState } from 'react';
-import { AppContext } from '../App';
 import background from '../image/2996302.jpg'
+import { url } from '../client/config'
+
 import './login.css'
 
 function Login() {
-  const { url } = useContext(AppContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    const response = await fetch(`${url}obtain-token`, {
+    const response = await fetch(`${url}/obtain-token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ function Login() {
       localStorage.setItem('username', username);
 
       // Make another request to get the user's information
-      const userResponse = await fetch(`${url}get-user-data`, {
+      const userResponse = await fetch(`${url}/get-user-data`, {
         headers: {
           Authorization: `Token ${token}`
         }

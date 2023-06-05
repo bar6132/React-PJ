@@ -204,6 +204,10 @@ import nopic from "../image/no-pic.jpg";
 import "./GameList.css";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
+import { url } from '../client/config'
+import axios from "axios";
+
+
 
 function GameList() {
   const { storeData } = useContext(AppContext);
@@ -211,21 +215,25 @@ function GameList() {
   const [consoleFilter, setConsoleFilter] = useState("");
   const [profileData, setProfileData] = useState({});
   const [showModal, setShowModal] = useState(false);
+
   const getUploader = (uploader) => {
-    fetch(`${url}/uploader/${uploader}`)
-      .then((response) => response.json())
-      .then((data) => {
+    axios
+      .get(`${url}/uploader/${uploader}`)
+      .then((response) => {
+        const data = response.data;
         setProfileData(data);
         setShowModal(true);
         console.log(profileData);
       })
       .catch((error) => console.log(error));
   };
+  
+  
 
   const handleCloseModal = () => {
     setShowModal(false);
   };
-  const url = "http://127.0.0.1:8000/api";
+  
 
   if (storeData === null || storeData === undefined) {
     return <p>Loading data...</p>;

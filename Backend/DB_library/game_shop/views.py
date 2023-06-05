@@ -279,7 +279,6 @@ def inbox(request, pk=None):
             return Response({'error': 'Message ID (pk) is required for deletion.'}, status=400)
 
 
-
 @api_view(['GET'])
 def user_inbox(request, pk):
     try:

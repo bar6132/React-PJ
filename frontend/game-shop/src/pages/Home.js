@@ -8,6 +8,8 @@ import Modal from "react-bootstrap/Modal";
 import nopic from "../image/no-pic.jpg";
 import "./Home.css";
 import { Button } from "react-bootstrap";
+import { url } from '../client/config'
+
 
 function Home() {
   const { storeData } = useContext(AppContext);
@@ -29,7 +31,6 @@ function Home() {
     setShowModal(false);
   };
 
-  const url = "http://127.0.0.1:8000/api";
 
   // Add a null/undefined check before calling map()
   if (storeData === null || storeData === undefined) {

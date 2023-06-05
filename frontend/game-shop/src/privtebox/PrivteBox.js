@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../App';
+import { url } from '../client/config'
+
 
 function PrivteBox() {
   const [messages, setMessages] = useState([]);
   const [senderNames, setSenderNames] = useState([]);
-  const { url } = useContext(AppContext);
+  
 
   useEffect(() => {
     const userProfile = JSON.parse(localStorage.getItem('UserProfile'));
@@ -12,7 +13,7 @@ function PrivteBox() {
 
     const fetchMessages = async () => {
       try {
-        const response = await fetch(`${url}users/${userId}/inbox/`);
+        const response = await fetch(`${url}/users/${userId}/inbox/`);
         const data = await response.json();
         setMessages(data);
       } catch (error) {
@@ -29,7 +30,7 @@ function PrivteBox() {
       const names = await Promise.all(
         senderIds.map(async (senderId) => {
           try {
-            const response = await fetch(`${url}getuser/${senderId}`);
+            const response = await fetch(`${url}/getuser/${senderId}`);
             const data = await response.json();
             return data.username;
           } catch (error) {

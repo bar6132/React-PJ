@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, {  useState } from 'react';
 import axios from 'axios';
-import { AppContext } from '../App';
 import './AddGame.css'
 import background from '../image/new.jpg'
+import { url } from '../client/config'
+
 
 function AddGame() {
-  const { url } = useContext(AppContext);
   const [console, setConsole] = useState('');
   const [gameName, setGameName] = useState('');
   const [price, setPrice] = useState('');
@@ -33,7 +33,7 @@ function AddGame() {
 
     axios({
       method: 'post',
-      url: `${url}game/`,
+      url: `${url}/game/`,
       data: formData,
       headers: {
         Authorization: `Token ${token}`,

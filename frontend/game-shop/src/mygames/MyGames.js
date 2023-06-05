@@ -6,9 +6,10 @@ import nopic from "../image/no-pic.jpg";
 import "./MyGames.css";
 import { Button, Form, Modal } from "react-bootstrap";
 import axios from "axios";
+import { url } from '../client/config'
+
 
 function EditGameForm({ gameData, onHide }) {
-  const { url } = useContext(AppContext);
   const token = window.localStorage.getItem("token");
   const [formData, setFormData] = useState(gameData);
 
@@ -181,7 +182,6 @@ function EditGameForm({ gameData, onHide }) {
 
 function MyGames() {
   const { storeData } = useContext(AppContext);
-  const url = "http://127.0.0.1:8000/api";
   const userProfile = JSON.parse(localStorage.getItem("UserProfile"));
   const currentUser = userProfile?.id;
 

@@ -288,10 +288,3 @@ def user_inbox(request, pk):
         return Response(serializer.data)
     except User.DoesNotExist:
         return Response({'error': 'User does not exist'}, status=404)
-
-
-# def groups(request):
-#     from channels.layers import get_channel_layer
-#     cl = get_channel_layer()
-#     groups = cl.groups
-#     return Response(groups)

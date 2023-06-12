@@ -288,3 +288,22 @@ def user_inbox(request, pk):
         return Response(serializer.data)
     except User.DoesNotExist:
         return Response({'error': 'User does not exist'}, status=404)
+
+
+@api_view(['GET'])
+def serve_game_pagination(request):
+    page_size = int(request.GET.get('page_size', 20))
+    page = int(request.GET.get('page_num', 0))
+
+    start = page * page_size
+    end = start + page_size
+
+    game = Game.objects.filter(id__range=[start, end-1])
+
+    game_data = GameSerializer(game, many=True).data
+
+    res = {'data': game_data,
+           'next_page':page + 1,
+           'hes_more': end <= len(game)
+           }
+    return Response(res)

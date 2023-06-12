@@ -75,10 +75,11 @@ class ContactMsg(models.Model):
 
 
 class Message(models.Model):
-    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
+    sender = models.CharField(max_length=15, null=False, blank=False)
     recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
-    subject = models.CharField(max_length=100)
+    subject = models.CharField(max_length=20)
     content = models.TextField()
+    email = models.CharField(max_length=254, null=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 

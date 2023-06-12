@@ -120,54 +120,6 @@ def get_user(request, pk):
         return Response(serializer.data)
 
 
-@csrf_exempt
-@api_view(['POST'])
-def signup(request):
-    # Get data from request
-    username = request.data.get("username", None)
-    password = request.data.get("password", None)
-    email = request.data.get("email", None)
-    location = request.data.get('location', None)
-    age = request.data.get('age', None)
-    phone = request.data.get('phone', None)
-    phonecontact = request.data.get('phonecontact', None)
-    emailcontact = request.data.get('emailcontact', None)
-    webcontact = request.data.get('webcontact', None)
-
-    if not username or not password:
-        return Response({'error': 'Missing required fields'}, status=400)
-
-    try:
-        user = User.objects.create_user(username=username, password=password, email=email)
-    except IntegrityError:
-        return Response({'error': 'Username already exists'}, status=400)
-
-    UserProfile.objects.create(user=user, location=location, age=age, phone=phone, email=email)
-
-    token, created = Token.objects.get_or_create(user=user)
-    user_profile = UserProfile.objects.get(user=user)
-
-    data = {
-        "message": f"New user created with ID: {user.id}",
-        "token": token.key,
-        'username': username,
-        "user": {
-            "id": user_profile.id,
-            "username": username,
-            "profile": {
-                "location": location,
-                "age": age,
-                "phone": phone,
-                "email": email,
-                "phonecontact": phonecontact,
-                "emailcontact": emailcontact,
-                "webcontact": webcontact,
-            }
-        }
-    }
-    return Response(data, status=201)
-
-
 @api_view(['GET'])
 def games(request, pk=None):
     """
@@ -230,6 +182,61 @@ def game(request, pk=None):
             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@csrf_exempt
+@api_view(['POST'])
+def signup(request):
+    # Get data from request
+    username = request.data.get("username", None)
+    password = request.data.get("password", None)
+    email = request.data.get("email", None)
+    location = request.data.get('location', None)
+    age = request.data.get('age', None)
+    phone = request.data.get('phone', None)
+    phonecontact = request.data.get('phonecontact', None)
+    emailcontact = request.data.get('emailcontact', None)
+    webcontact = request.data.get('webcontact', None)
+
+    if not username or not password:
+        return Response({'error': 'Missing required fields'}, status=400)
+
+    try:
+        user = User.objects.create_user(username=username, password=password, email=email)
+    except IntegrityError:
+        return Response({'error': 'Username already exists'}, status=400)
+
+    user_profile = UserProfile.objects.create(
+        user=user,
+        location=location,
+        age=age,
+        phone=phone,
+        email=email,
+        phonecontact=phonecontact,
+        emailcontact=emailcontact,
+        webcontact=webcontact
+    )
+
+    token, created = Token.objects.get_or_create(user=user)
+
+    data = {
+        "message": f"New user created with ID: {user.id}",
+        "token": token.key,
+        'username': username,
+        "user": {
+            "id": user_profile.id,
+            "username": username,
+            "profile": {
+                "location": location,
+                "age": age,
+                "phone": phone,
+                "email": email,
+                "phonecontact": phonecontact,
+                "emailcontact": emailcontact,
+                "webcontact": webcontact,
+            }
+        }
+    }
+    return Response(data, status=201)
+
 @api_view(['GET', 'POST', 'PATCH', 'DELETE'])
 def inbox(request, pk=None):
     if request.method == 'GET':
@@ -279,16 +286,27 @@ def inbox(request, pk=None):
             return Response({'error': 'Message ID (pk) is required for deletion.'}, status=400)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def user_inbox(request, pk):
-    try:
-        user = User.objects.get(pk=pk)
-        messages = user.received_messages.all()
-        serializer = MessageSerializer(messages, many=True)
-        return Response(serializer.data)
-    except User.DoesNotExist:
-        return Response({'error': 'User does not exist'}, status=404)
+    if request.method == 'GET':
+        try:
+            user_profile = UserProfile.objects.get(pk=pk)
+            user_id = user_profile.user.id  # Get the user ID from the UserProfile object
+            messages = user_profile.user.received_messages.all()  # Use the user profile to access the related User object
+            serializer = MessageSerializer(messages, many=True)
+            return Response(serializer.data)
+        except UserProfile.DoesNotExist:
+            return Response({'error': 'User profile does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
+    elif request.method == 'POST':
+        request.data['recipient'] = pk  # Set the recipient ID in the request data
+        serializer = MessageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def serve_game_pagination(request):

@@ -3,7 +3,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from django.contrib.auth.models import User
+from . import paginators
+from django.contrib.auth.models import User  
 
 
 urlpatterns = [
@@ -22,6 +23,8 @@ urlpatterns = [
     path('game/<int:pk>', views.game),
     path('inbox/', views.inbox),
     path('inbox/<int:pk>', views.inbox),
+    path('page', paginators.GamePagination.as_view()),
+    path('serve_game_pagination', paginators.serve_game_pagination)
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

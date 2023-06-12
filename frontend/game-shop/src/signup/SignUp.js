@@ -1,11 +1,10 @@
-import React, { useState, useContext } from "react";
-import { AppContext } from '../App';
+import React, { useState } from "react";
 import background from '../image/2537738.jpg'
 import './signup.css'
+import {url} from '../client/config'
 
 
 function Signup() {
-  const {url} = useContext(AppContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,7 +24,7 @@ function Signup() {
     }
     try {
       // Send form data to server
-      const response = await fetch(`${url}signup`, {
+      const response = await fetch(`${url}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

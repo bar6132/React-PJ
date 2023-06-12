@@ -8,6 +8,8 @@ from .models import Game, UserProfile, ContactMsg
 from .serializers import GameSerializer, UserProfileSerializer, ContactMsgSerializer, MessageSerializer, UserSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
+from django.core.cache import cache, caches
+from django.views.decorators.cache import cache_page
 
 
 @api_view(['POST'])
@@ -128,8 +130,9 @@ def games(request, pk=None):
     if request.method == 'GET':
         if pk is None:
             g = Game.objects.all()
-            serializer = GameSerializer(g, many=True)
-            return Response(serializer.data)
+            serializer = GameSerializer(g, many=True).data
+            cache.set('games',[serializer])
+            return Response(serializer)
         else:
             g = Game.objects.get(pk=pk)
             serializer = GameSerializer(g)
@@ -153,6 +156,7 @@ def game(request, pk=None):
     elif request.method == 'POST':
         serializer = GameSerializer(data=request.data)
         if serializer.is_valid():
+            cache.delete('games')
             uploader = UserProfile.objects.get(user=request.user)
             serializer.save(uploader=uploader)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -166,6 +170,7 @@ def game(request, pk=None):
             g = Game.objects.get(pk=pk)
             serializer = GameSerializer(g, data=request.data)
             if serializer.is_valid():
+                cache.delete('games')
                 serializer.save()
                 return Response(serializer.data)
             else:
@@ -177,6 +182,7 @@ def game(request, pk=None):
         if pk is not None:
             g = Game.objects.get(pk=pk)
             g.delete()
+            cache.delete('games')
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({"error": "Please provide a valid ID."}, status=status.HTTP_400_BAD_REQUEST)
